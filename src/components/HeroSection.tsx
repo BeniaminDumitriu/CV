@@ -87,9 +87,10 @@ const Particles = () => {
 
 interface HeroSectionProps {
   onEnterGame?: () => void;
+  onContactClick?: () => void;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ onEnterGame }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ onEnterGame, onContactClick }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const controls = useAnimationControls();
@@ -196,15 +197,30 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onEnterGame }) => {
 
         {/* Interactive Elements */}
         <motion.div variants={itemVariants} className="mb-16 space-x-6 space-y-6">
+          {onContactClick && (
+            <motion.div 
+              className="inline-flex items-center space-x-4 glass px-8 py-4 rounded-full border border-green-500/30 cursor-pointer"
+              whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(34, 197, 94, 0.5)" }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onContactClick}
+            >
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-white font-mono">📧 Contact Me</span>
+              <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </motion.div>
+          )}
+          
           <motion.div 
             className="inline-flex items-center space-x-4 glass px-8 py-4 rounded-full border border-purple-500/30 cursor-pointer"
             whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(139, 92, 246, 0.5)" }}
             whileTap={{ scale: 0.95 }}
             onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
           >
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+            <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
             <span className="text-white font-mono">Explore Traditional CV</span>
-            <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
           </motion.div>
