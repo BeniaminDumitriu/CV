@@ -1,6 +1,8 @@
 # 🚀 CV 3D BOMBA - Interactive 3D Portfolio
 
-Un CV interactiv 3D care îți arată experiența ca o călătorie prin spațiul virtual - **conceptul "bomba" pentru 2024**!
+**Created by Beniamin Dumitriu** - Un CV interactiv 3D care îți arată experiența ca o călătorie prin spațiul virtual - **conceptul "bomba" pentru 2024**!
+
+> Portfolio interactiv 3D dezvoltat cu React, Three.js și TypeScript
 
 ## 🎯 Conceptul
 
@@ -174,9 +176,9 @@ vercel
 ## 🤝 Need Help?
 
 Ai întrebări? Contactează-mă:
-- **Email:** [your-email]
-- **LinkedIn:** [your-linkedin]
-- **GitHub:** [your-github]
+- **Email:** benidumitriu5@gmail.com
+- **LinkedIn:** [linkedin.com/in/beniamin-dumitriu](https://linkedin.com/in/beniamin-dumitriu)
+- **GitHub:** [github.com/BeniaminDumitriu](https://github.com/BeniaminDumitriu)
 
 ---
 
