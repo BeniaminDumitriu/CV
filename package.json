@@ -2,6 +2,17 @@
   "name": "cv-3d-bomba",
   "version": "0.1.0",
   "private": true,
+  "description": "Interactive 3D Portfolio created with React, Three.js and TypeScript",
+  "author": {
+    "name": "Beniamin Dumitriu",
+    "email": "benidumitriu5@gmail.com",
+    "url": "https://github.com/BeniaminDumitriu"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BeniaminDumitriu/CV.git"
+  },
+  "keywords": ["react", "threejs", "3d", "portfolio", "cv", "typescript", "framer-motion"],
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "@react-spring/three": "^10.0.1",
