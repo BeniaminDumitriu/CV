@@ -64,7 +64,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false react-scripts build",
+    "build:vercel": "react-scripts build --no-minimize",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
