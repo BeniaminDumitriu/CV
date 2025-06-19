@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { supabase } from '../lib/supabase';
+import { sendContactEmails } from '../services/emailService';
 import toast, { Toaster } from 'react-hot-toast';
 import { Mail, Phone, User, MessageSquare, Send, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -35,26 +36,58 @@ const ContactPage: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      const { error } = await supabase
+      // 1. Save to database
+      console.log('💾 Saving contact data to database...');
+      
+      const { error: dbError } = await supabase
         .from('contacts')
-        .insert([
-          {
-            first_name: data.firstName,
-            last_name: data.lastName,
-            email: data.email,
-            phone: data.phone || null,
-            message: data.message || null,
-            status: 'new',
-          },
-        ]);
+        .insert([{
+          first_name: data.firstName,
+          last_name: data.lastName,
+          email: data.email,
+          phone: data.phone || null,
+          message: data.message || null,
+          status: 'new',
+        }]);
 
-      if (error) throw error;
+      if (dbError) {
+        console.error('Database error:', dbError);
+        throw dbError;
+      }
+      
+      console.log('✅ Contact saved to database successfully!');
 
-      toast.success('🎉 Thank you for reaching out! I\'ll get back to you soon.');
+      // 2. Send automated emails
+      toast.loading('📧 Sending confirmation email...', { id: 'email-loading' });
+      
+      const emailResults = await sendContactEmails({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        message: data.message,
+      });
+
+      toast.dismiss('email-loading');
+
+      // Show success messages based on email results
+      if (emailResults.confirmationSent && emailResults.notificationSent) {
+        toast.success('🎉 Mesajul a fost trimis cu succes! Vei primi un email de confirmare.');
+      } else if (emailResults.confirmationSent) {
+        toast.success('🎉 Mesajul a fost trimis! Vei primi un email de confirmare.');
+        toast.error('⚠️ Nu am putut trimite notificarea către admin.');
+      } else if (emailResults.notificationSent) {
+        toast.success('🎉 Mesajul a fost trimis cu succes!');
+        toast.error('⚠️ Nu am putut trimite email-ul de confirmare.');
+      } else {
+        toast.success('🎉 Mesajul a fost salvat! Te voi contacta în curând.');
+        toast.error('⚠️ Nu am putut trimite email-urile automate.');
+      }
+
       reset();
     } catch (error: any) {
       console.error('Error submitting contact form:', error);
-      toast.error('Something went wrong. Please try again.');
+      toast.error('Ceva nu a mers bine. Te rog încearcă din nou.');
     } finally {
       setIsSubmitting(false);
     }
