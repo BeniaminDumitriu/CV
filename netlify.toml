@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  DISABLE_CSS_MINIMIZER = "true"
+  NODE_VERSION = "18"
+
+[[plugins]]
+  package = "@netlify/plugin-css-minifier"
+  [plugins.inputs]
+    disabled = true 

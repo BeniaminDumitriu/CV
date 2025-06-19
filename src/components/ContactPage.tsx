@@ -173,7 +173,7 @@ const ContactPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 p-8 rounded-2xl border border-purple-500/20">
+                <div className="bg-purple-500/10 p-8 rounded-2xl border border-purple-500/20">
                   <h3 className="text-xl font-bold mb-4 text-purple-400">
                     🚀 What I'm Looking For
                   </h3>

@@ -146,7 +146,7 @@ const AdminDashboard: React.FC = () => {
       <Toaster position="top-center" />
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
         {/* Navigation */}
-        <nav className="bg-black/20 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <nav className="bg-black/20 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center space-x-4">
@@ -183,14 +183,14 @@ const AdminDashboard: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-gradient-to-br from-blue-500/10 via-white/5 to-purple-500/10 backdrop-blur-xl p-6 rounded-2xl border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 group"
+              className="bg-white/10 backdrop-blur-xl p-6 rounded-xl border border-white/20 hover:border-blue-400 transition-all duration-300 hover:shadow-lg group"
             >
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">Total Contacts</p>
-                  <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">{analytics.total}</p>
+                  <p className="text-3xl font-bold text-blue-400">{analytics.total}</p>
                 </div>
-                <div className="w-14 h-14 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <div className="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Users className="w-7 h-7 text-blue-300" />
                 </div>
               </div>
@@ -200,14 +200,14 @@ const AdminDashboard: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-gradient-to-br from-yellow-500/10 via-white/5 to-orange-500/10 backdrop-blur-xl p-6 rounded-2xl border border-yellow-500/20 hover:border-yellow-400/40 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/10 group"
+              className="bg-white/10 backdrop-blur-xl p-6 rounded-xl border border-white/20 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg group"
             >
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">New Messages</p>
-                  <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">{analytics.new}</p>
+                  <p className="text-3xl font-bold text-yellow-400">{analytics.new}</p>
                 </div>
-                <div className="w-14 h-14 bg-gradient-to-br from-yellow-500/30 to-orange-500/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <div className="w-14 h-14 bg-yellow-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <AlertCircle className="w-7 h-7 text-yellow-300" />
                 </div>
               </div>
@@ -217,14 +217,14 @@ const AdminDashboard: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-gradient-to-br from-amber-500/10 via-white/5 to-yellow-500/10 backdrop-blur-xl p-6 rounded-2xl border border-amber-500/20 hover:border-amber-400/40 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/10 group"
+              className="bg-white/10 backdrop-blur-xl p-6 rounded-xl border border-white/20 hover:border-amber-400 transition-all duration-300 hover:shadow-lg group"
             >
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">Read</p>
-                  <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-400">{analytics.read}</p>
+                  <p className="text-3xl font-bold text-amber-400">{analytics.read}</p>
                 </div>
-                <div className="w-14 h-14 bg-gradient-to-br from-amber-500/30 to-yellow-500/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <div className="w-14 h-14 bg-amber-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Eye className="w-7 h-7 text-amber-300" />
                 </div>
               </div>
@@ -234,14 +234,14 @@ const AdminDashboard: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-gradient-to-br from-green-500/10 via-white/5 to-emerald-500/10 backdrop-blur-xl p-6 rounded-2xl border border-green-500/20 hover:border-green-400/40 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/10 group"
+              className="bg-white/10 backdrop-blur-xl p-6 rounded-xl border border-white/20 hover:border-green-400 transition-all duration-300 hover:shadow-lg group"
             >
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">Replied</p>
-                  <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">{analytics.replied}</p>
+                  <p className="text-3xl font-bold text-green-400">{analytics.replied}</p>
                 </div>
-                <div className="w-14 h-14 bg-gradient-to-br from-green-500/30 to-emerald-500/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <div className="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <CheckCircle className="w-7 h-7 text-green-300" />
                 </div>
               </div>
@@ -253,7 +253,7 @@ const AdminDashboard: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="bg-gradient-to-br from-gray-500/5 via-white/5 to-slate-500/5 backdrop-blur-xl p-6 rounded-2xl border border-gray-500/20 hover:border-gray-400/30 transition-all duration-300 shadow-lg shadow-black/10 mb-6"
+            className="bg-white/10 backdrop-blur-xl p-6 rounded-xl border border-white/20 hover:border-gray-400 transition-all duration-300 shadow-lg mb-6"
           >
             <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
               <div className="flex items-center space-x-4 w-full md:w-auto">
@@ -264,7 +264,7 @@ const AdminDashboard: React.FC = () => {
                     placeholder="Search contacts..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-white/8 transition-colors duration-200"
+                    className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-white/8 transition-colors duration-200"
                   />
                 </div>
               </div>
@@ -274,7 +274,7 @@ const AdminDashboard: React.FC = () => {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value as any)}
-                  className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-white/8 transition-colors duration-200"
+                  className="bg-white/5 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-white/8 transition-colors duration-200"
                 >
                   <option value="all" className="bg-gray-800">All Status</option>
                   <option value="new" className="bg-gray-800">New</option>
@@ -290,11 +290,11 @@ const AdminDashboard: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="bg-gradient-to-br from-slate-500/5 via-white/5 to-gray-500/5 backdrop-blur-xl rounded-2xl border border-slate-500/20 hover:border-slate-400/30 transition-all duration-300 shadow-xl shadow-black/20 overflow-hidden"
+            className="bg-white/10 backdrop-blur-xl rounded-xl border border-white/20 hover:border-slate-400 transition-all duration-300 shadow-xl overflow-hidden"
           >
-            <div className="p-6 border-b border-white/10 bg-gradient-to-r from-indigo-500/10 to-purple-500/10">
-              <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-indigo-500/30 to-purple-500/30 rounded-lg flex items-center justify-center">
+            <div className="p-6 border-b border-white/20 bg-white/5">
+              <h2 className="text-2xl font-bold text-indigo-400 flex items-center space-x-3">
+                <div className="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
                   <MessageSquare className="w-5 h-5 text-indigo-300" />
                 </div>
                 <span>Contact Messages ({filteredContacts.length})</span>
@@ -320,7 +320,7 @@ const AdminDashboard: React.FC = () => {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.05 }}
-                      className="hover:bg-gradient-to-r hover:from-indigo-500/5 hover:to-purple-500/5 transition-all duration-300 cursor-pointer border-l-2 border-transparent hover:border-indigo-400/50"
+                      className="hover:bg-white/5 transition-all duration-300 cursor-pointer border-l-2 border-transparent hover:border-indigo-400"
                       onClick={() => setSelectedContact(contact)}
                     >
                       <td className="px-6 py-4">
@@ -405,10 +405,10 @@ const AdminDashboard: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
               className="bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 rounded-3xl border border-slate-500/30 shadow-2xl shadow-black/50 max-w-2xl w-full max-h-[80vh] overflow-hidden"
             >
-              <div className="p-6 border-b border-slate-500/20 bg-gradient-to-r from-indigo-500/10 to-purple-500/10">
+              <div className="p-6 border-b border-slate-200 bg-gradient-to-r from-indigo-100 to-purple-100">
                 <div className="flex items-center justify-between">
                   <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 flex items-center space-x-3">
-                                         <div className="w-8 h-8 bg-gradient-to-br from-indigo-500/30 to-purple-500/30 rounded-xl flex items-center justify-center">
+                                         <div className="w-8 h-8 bg-gradient-to-br from-indigo-200 to-purple-200 rounded-xl flex items-center justify-center">
                        <Users className="w-5 h-5 text-indigo-300" />
                      </div>
                     <span>Contact Details</span>
@@ -424,14 +424,14 @@ const AdminDashboard: React.FC = () => {
 
               <div className="p-6 space-y-6 max-h-[60vh] overflow-y-auto">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gradient-to-br from-blue-500/5 to-purple-500/5 p-4 rounded-xl border border-blue-500/20">
+                  <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-4 rounded-xl border border-blue-200">
                     <label className="block text-sm font-medium text-blue-300 mb-2 flex items-center">
                       <div className="w-4 h-4 bg-blue-500/30 rounded mr-2"></div>
                       First Name
                     </label>
                     <p className="text-white font-medium text-lg">{selectedContact.first_name}</p>
                   </div>
-                  <div className="bg-gradient-to-br from-purple-500/5 to-pink-500/5 p-4 rounded-xl border border-purple-500/20">
+                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-200">
                     <label className="block text-sm font-medium text-purple-300 mb-2 flex items-center">
                       <div className="w-4 h-4 bg-purple-500/30 rounded mr-2"></div>
                       Last Name
@@ -440,7 +440,7 @@ const AdminDashboard: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-green-500/5 to-emerald-500/5 p-4 rounded-xl border border-green-500/20">
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl border border-green-200">
                   <label className="block text-sm font-medium text-green-300 mb-2 flex items-center">
                     <Mail className="w-4 h-4 mr-2" />
                     Email
@@ -449,7 +449,7 @@ const AdminDashboard: React.FC = () => {
                 </div>
 
                 {selectedContact.phone && (
-                  <div className="bg-gradient-to-br from-yellow-500/5 to-orange-500/5 p-4 rounded-xl border border-yellow-500/20">
+                  <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-4 rounded-xl border border-yellow-200">
                     <label className="block text-sm font-medium text-yellow-300 mb-2 flex items-center">
                       <Phone className="w-4 h-4 mr-2" />
                       Phone
@@ -459,12 +459,12 @@ const AdminDashboard: React.FC = () => {
                 )}
 
                 {selectedContact.message && (
-                  <div className="bg-gradient-to-br from-indigo-500/5 to-purple-500/5 p-4 rounded-xl border border-indigo-500/20">
+                  <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-4 rounded-xl border border-indigo-500/20">
                     <label className="block text-sm font-medium text-indigo-300 mb-3 flex items-center">
                       <MessageSquare className="w-4 h-4 mr-2" />
                       Message
                     </label>
-                    <div className="bg-gradient-to-br from-slate-800/50 to-gray-800/50 p-4 rounded-xl border border-slate-600/30">
+                    <div className="bg-gradient-to-br from-slate-200 to-gray-200 p-4 rounded-xl border border-slate-300">
                       <p className="text-white leading-relaxed whitespace-pre-wrap">
                         {selectedContact.message}
                       </p>
@@ -489,14 +489,14 @@ const AdminDashboard: React.FC = () => {
                 <div className="flex space-x-3 pt-4">
                   <button
                     onClick={() => updateContactStatus(selectedContact.id, 'read')}
-                    className="flex-1 bg-gradient-to-r from-amber-500/20 to-yellow-500/20 hover:from-amber-500/30 hover:to-yellow-500/30 text-amber-300 px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/20 flex items-center justify-center space-x-2"
+                    className="flex-1 bg-gradient-to-r from-amber-200 to-yellow-200 hover:from-amber-300 hover:to-yellow-300 text-amber-300 px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/20 flex items-center justify-center space-x-2"
                   >
                     <Eye className="w-4 h-4" />
                     <span>Mark as Read</span>
                   </button>
                   <button
                     onClick={() => updateContactStatus(selectedContact.id, 'replied')}
-                    className="flex-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 text-green-300 px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-green-500/20 flex items-center justify-center space-x-2"
+                    className="flex-1 bg-gradient-to-r from-green-200 to-emerald-200 hover:from-green-300 hover:to-emerald-300 text-green-300 px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-green-500/20 flex items-center justify-center space-x-2"
                   >
                     <CheckCircle className="w-4 h-4" />
                     <span>Mark as Replied</span>

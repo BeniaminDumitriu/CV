@@ -178,7 +178,7 @@ const MainPortfolio: React.FC = () => {
                 transition={{ duration: 0.8 }}
                 className="relative"
               >
-                <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-8 rounded-2xl border border-white/10">
+                <div className="bg-blue-500/20 p-8 rounded-2xl border border-white/10">
                   <h3 className="text-2xl font-bold mb-6 text-center">Journey Highlights</h3>
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
@@ -221,7 +221,7 @@ const MainPortfolio: React.FC = () => {
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.1 }}
-                  className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 p-6 md:pr-32 rounded-xl border border-white/10"
+                  className="bg-blue-500/10 p-6 md:pr-32 rounded-xl border border-white/10"
                 >
                   <h3 className="text-2xl font-bold mb-6 text-blue-400">💻 Languages</h3>
                   <div className="space-y-3">
@@ -245,7 +245,7 @@ const MainPortfolio: React.FC = () => {
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                  className="bg-gradient-to-br from-green-500/10 to-cyan-500/10 p-6 rounded-xl border border-white/10"
+                  className="bg-green-500/10 p-6 rounded-xl border border-white/10"
                 >
                   <h3 className="text-2xl font-bold mb-6 text-green-400">🚀 Frameworks</h3>
                   <div className="space-y-3">
@@ -269,7 +269,7 @@ const MainPortfolio: React.FC = () => {
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
-                  className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 p-6 rounded-xl border border-white/10"
+                  className="bg-purple-500/10 p-6 rounded-xl border border-white/10"
                 >
                   <h3 className="text-2xl font-bold mb-6 text-purple-400">🔧 Tools & Tech</h3>
                   <div className="space-y-3">
@@ -378,7 +378,7 @@ const MainPortfolio: React.FC = () => {
           </section>
 
           {/* Game Section - The Surprise! */}
-          <section id="game-section" className="min-h-screen bg-gradient-to-br from-black via-purple-900/20 to-black flex items-center justify-center py-20">
+          <section id="game-section" className="min-h-screen bg-black flex items-center justify-center py-20">
             <div className="max-w-4xl mx-auto px-4 text-center">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
