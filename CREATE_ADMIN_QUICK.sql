@@ -16,7 +16,7 @@ UPDATE public.user_profiles
 SET role = 'admin' 
 WHERE id = (
   SELECT id FROM auth.users 
-  WHERE email = 'tau.email@gmail.com'  -- SCHIMBĂ AICI!
+  WHERE email = 'beniamindumitriu@gmail.com'  -- EMAIL-UL EXISTENT!
   LIMIT 1
 );
 
@@ -34,13 +34,13 @@ ORDER BY u.created_at DESC;
 INSERT INTO public.user_profiles (id, role)
 SELECT id, 'admin'
 FROM auth.users 
-WHERE email = 'tau.email@gmail.com'  -- SCHIMBĂ AICI!
+WHERE email = 'beniamindumitriu@gmail.com'  -- EMAIL-UL EXISTENT!
 AND id NOT IN (SELECT id FROM public.user_profiles)
 LIMIT 1;
 
 -- =============================================
 -- INSTRUCȚIUNI:
--- 1. Înlocuiește 'tau.email@gmail.com' cu email-ul tău real
+-- 1. Email-ul 'beniamindumitriu@gmail.com' e deja setat
 -- 2. Rulează fiecare query step-by-step în Supabase SQL Editor
 -- 3. Verifică rezultatele după fiecare pas
 -- ============================================= 

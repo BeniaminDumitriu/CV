@@ -211,7 +211,7 @@ const ShadcnExamples: React.FC = () => {
         </div>
 
         {/* Interactive Footer */}
-        <Card className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-purple-500/30">
+                      <Card className="bg-purple-600/20 border-purple-500/30">
           <CardContent className="pt-6">
             <div className="text-center space-y-4">
               <h3 className="text-xl font-bold text-white flex items-center justify-center gap-2">
