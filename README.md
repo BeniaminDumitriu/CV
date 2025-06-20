@@ -15,7 +15,7 @@ Transformă CV-ul tradițional într-o experiență 3D cinematică:
 - **Scene 6:** Timeline animat → Experiență  
 - **Scene 7:** Telefon vintage → Contact
 
-## 🛠 Tehnologii "BOMBA"
+## 🛠 Tehnologii
 
 ### **React Three Fiber** ⭐⭐⭐⭐⭐
 - **Ce face:** Creează obiecte 3D în React
