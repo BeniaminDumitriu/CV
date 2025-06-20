@@ -1,6 +1,6 @@
-# 🚀 CV 3D BOMBA - Interactive 3D Portfolio
+# 🚀 CV 3D - Interactive 3D Portfolio
 
-**Created by Beniamin Dumitriu** - Un CV interactiv 3D care îți arată experiența ca o călătorie prin spațiul virtual - **conceptul "bomba" pentru 2024**!
+**Created by Beniamin Dumitriu** - Un CV interactiv 3D care îți arată experiența ca o călătorie prin spațiul virtual
 
 > Portfolio interactiv 3D dezvoltat cu React, Three.js și TypeScript
 
@@ -19,27 +19,27 @@ Transformă CV-ul tradițional într-o experiență 3D cinematică:
 
 ### **React Three Fiber** ⭐⭐⭐⭐⭐
 - **Ce face:** Creează obiecte 3D în React
-- **Folosești pentru:** Laptop, particule, animații 3D
+- **Folosesc pentru:** Laptop, particule, animații 3D
 - **Impact:** Experiență de joc AAA
 
 ### **Framer Motion** ⭐⭐⭐⭐⭐  
 - **Ce face:** Animații fluide și tranziții
-- **Folosești pentru:** Text animations, hover effects, page transitions
+- **Folosesc pentru:** Text animations, hover effects, page transitions
 - **Impact:** UX ca la Apple
 
 ### **Lenis Smooth Scroll** ⭐⭐⭐⭐⭐
 - **Ce face:** Scroll premium și fluid
-- **Folosești pentru:** Mișcarea camerei prin scene
+- **Folosesc pentru:** Mișcarea camerei prin scene
 - **Impact:** Experiență premium
 
 ### **Tailwind CSS** ⭐⭐⭐⭐⭐
 - **Ce face:** Styling rapid cu clase
-- **Folosești pentru:** Layout, colors, responsive design
+- **Folosesc pentru:** Layout, colors, responsive design
 - **Impact:** Design consistent și rapid
 
 ### **TypeScript** ⭐⭐⭐⭐⭐
 - **Ce face:** JavaScript cu tipuri
-- **Folosești pentru:** Code safety și IntelliSense
+- **Folosesc pentru:** Code safety și IntelliSense
 - **Impact:** Fewer bugs, better DX
 
 ## 🏁 Setup Rapid (5 minute)
@@ -182,7 +182,7 @@ Ai întrebări? Contactează-mă:
 
 ---
 
-## 🔥 **Ready să faci CV-ul care BOMBA?**
+## 🔥 **Pregatit să faci CV-ul tau ca site?**
 
 **Next Steps:**
 1. ✅ Rulează `npm start`
