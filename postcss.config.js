@@ -3,4 +3,5 @@ module.exports = {
     tailwindcss: {},
     autoprefixer: {},
   },
+  parser: require('postcss-safe-parser'),
 } 

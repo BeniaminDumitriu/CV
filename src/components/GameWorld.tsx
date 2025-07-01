@@ -967,6 +967,16 @@ const SecondFloor = ({ position }: { position: [number, number, number] }) => (
     </mesh>
     
     {/* Projects Display - Real Websites - Arranged in Circle */}
+    {/* Featured Project - Second.vet in Center with Special Animation */}
+    <FloatingProject 
+      position={[0, 2.5, 0]}
+      title="Second.vet"
+      description="Expert X-ray interpretation platform for pets - Connect with certified veterinarians for fast and reliable insights."
+      tech={["Veterinary Tech", "X-ray Analysis", "Pet Health", "Telemedicine"]}
+      color="#8b5cf6"
+      image="/images/secondvet.png"
+    />
+    
     <FloatingProject 
       position={[-6, 1.5, -6]}
       title="Patternest"
@@ -1004,7 +1014,7 @@ const SecondFloor = ({ position }: { position: [number, number, number] }) => (
     />
     
     <FloatingProject 
-      position={[0, 1.5, 0]}
+      position={[0, 1.5, -8]}
       title="Nodart"
       description="Custom handcrafted macrame art pieces and home decor solutions for modern living spaces."
       tech={["Handcraft", "Macrame", "Home Decor", "Custom Art"]}
@@ -1014,18 +1024,19 @@ const SecondFloor = ({ position }: { position: [number, number, number] }) => (
     
     {/* Ambient Lighting for Projects - Circular Arrangement */}
     {[
+      { pos: [0, 3, 0], color: "#8b5cf6" }, // Second.vet - center, elevated
       { pos: [-6, 2, -6], color: "#667eea" },
       { pos: [6, 2, -6], color: "#f093fb" },
       { pos: [-6, 2, 6], color: "#4facfe" },
       { pos: [6, 2, 6], color: "#43e97b" },
-      { pos: [0, 2, 0], color: "#fa709a" }
+      { pos: [0, 2, -8], color: "#fa709a" }
     ].map((light, i) => (
       <pointLight 
         key={i}
         position={light.pos as [number, number, number]}
-        intensity={0.5}
+        intensity={i === 0 ? 0.8 : 0.5} // Second.vet gets stronger lighting
         color={light.color}
-        distance={6}
+        distance={i === 0 ? 8 : 6} // Second.vet gets wider reach
       />
     ))}
   </group>
@@ -1714,7 +1725,7 @@ const GameWorldInterior = ({ onExitHouse }: { onExitHouse: () => void }) => {
       {/* Game UI */}
       <div style={{
         position: 'absolute',
-        top: '20px',
+        top: '80px',
         left: '20px',
         color: 'white',
         background: 'rgba(0,0,0,0.8)',
