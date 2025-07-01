@@ -466,8 +466,8 @@ const AdminDashboard: React.FC = () => {
                     </label>
                     <div className="bg-gradient-to-br from-slate-200 to-gray-200 p-4 rounded-xl border border-slate-300">
                       <p className="text-white leading-relaxed whitespace-pre-wrap">
-                        {selectedContact.message}
-                      </p>
+                      {selectedContact.message}
+                    </p>
                     </div>
                   </div>
                 )}

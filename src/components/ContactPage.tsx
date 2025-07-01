@@ -42,12 +42,12 @@ const ContactPage: React.FC = () => {
       const { error: dbError } = await supabase
         .from('contacts')
         .insert([{
-          first_name: data.firstName,
-          last_name: data.lastName,
-          email: data.email,
-          phone: data.phone || null,
-          message: data.message || null,
-          status: 'new',
+            first_name: data.firstName,
+            last_name: data.lastName,
+            email: data.email,
+            phone: data.phone || null,
+            message: data.message || null,
+            status: 'new',
         }]);
 
       if (dbError) {

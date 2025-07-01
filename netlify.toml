@@ -1,7 +1,7 @@
 [build]
   command = "npm install --legacy-peer-deps && npm run build"
   publish = "build"
-
+ 
 [build.environment]
   DISABLE_CSS_MINIMIZER = "true"
   NODE_VERSION = "18"
