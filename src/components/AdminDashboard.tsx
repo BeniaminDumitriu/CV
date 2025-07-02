@@ -16,6 +16,7 @@ import {
   User,
   Mail,
   Phone,
+  Calendar,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -132,10 +133,10 @@ const AdminDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-white">Loading dashboard...</p>
+          <p className="text-white text-lg">Loading dashboard...</p>
         </div>
       </div>
     );
@@ -144,29 +145,34 @@ const AdminDashboard: React.FC = () => {
   return (
     <>
       <Toaster position="top-center" />
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
-        {/* Navigation */}
-        <nav className="bg-black/20 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+      <div className="min-h-screen bg-slate-900 text-white">
+        {/* Navigation Header */}
+        <motion.nav 
+          className="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 backdrop-blur-sm"
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center space-x-4">
                 <Link 
                   to="/" 
-                  className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500"
+                  className="font-bold text-2xl text-blue-400 hover:text-blue-300 transition-colors"
                 >
                   BD
                 </Link>
-                <span className="text-gray-400">•</span>
-                <h1 className="text-lg font-semibold">Admin Dashboard</h1>
+                <span className="text-slate-400">•</span>
+                <h1 className="text-xl font-semibold text-white">Admin Dashboard</h1>
               </div>
               
               <div className="flex items-center space-x-4">
-                <span className="text-sm text-gray-400">
+                <span className="text-sm text-slate-400">
                   Welcome, {user?.email}
                 </span>
                 <button
                   onClick={handleSignOut}
-                  className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 hover:text-red-300 transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white transition-colors"
                 >
                   <LogOut size={16} />
                   <span>Sign Out</span>
@@ -174,112 +180,240 @@ const AdminDashboard: React.FC = () => {
               </div>
             </div>
           </div>
-        </nav>
+        </motion.nav>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Analytics Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-xl border border-white/20 hover:border-blue-400 transition-all duration-300 hover:shadow-lg group"
+              initial={{ opacity: 0, y: 50, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: 0.1,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -5,
+                transition: { duration: 0.2 }
+              }}
+              className="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-blue-500 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20 group cursor-pointer"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm mb-1">Total Contacts</p>
-                  <p className="text-3xl font-bold text-blue-400">{analytics.total}</p>
+                  <motion.p 
+                    className="text-slate-400 text-sm mb-1"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    Total Contacts
+                  </motion.p>
+                  <motion.p 
+                    className="text-3xl font-bold text-blue-400"
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.4, type: "spring", stiffness: 150 }}
+                  >
+                    {analytics.total}
+                  </motion.p>
                 </div>
-                <div className="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Users className="w-7 h-7 text-blue-300" />
-                </div>
+                <motion.div 
+                  className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:bg-blue-500/30"
+                  whileHover={{ rotate: 360, scale: 1.2 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Users className="w-6 h-6 text-blue-400" />
+                </motion.div>
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-xl border border-white/20 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg group"
+              initial={{ opacity: 0, y: 50, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: 0.2,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -5,
+                transition: { duration: 0.2 }
+              }}
+              className="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-yellow-500 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/20 group cursor-pointer"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm mb-1">New Messages</p>
-                  <p className="text-3xl font-bold text-yellow-400">{analytics.new}</p>
+                  <motion.p 
+                    className="text-slate-400 text-sm mb-1"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    New Messages
+                  </motion.p>
+                  <motion.p 
+                    className="text-3xl font-bold text-yellow-400"
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.5, type: "spring", stiffness: 150 }}
+                  >
+                    {analytics.new}
+                  </motion.p>
                 </div>
-                <div className="w-14 h-14 bg-yellow-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <AlertCircle className="w-7 h-7 text-yellow-300" />
-                </div>
+                <motion.div 
+                  className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center group-hover:bg-yellow-500/30"
+                  whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.2 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <AlertCircle className="w-6 h-6 text-yellow-400" />
+                </motion.div>
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-xl border border-white/20 hover:border-amber-400 transition-all duration-300 hover:shadow-lg group"
+              initial={{ opacity: 0, y: 50, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: 0.3,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -5,
+                transition: { duration: 0.2 }
+              }}
+              className="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-orange-500 transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/20 group cursor-pointer"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm mb-1">Read</p>
-                  <p className="text-3xl font-bold text-amber-400">{analytics.read}</p>
+                  <motion.p 
+                    className="text-slate-400 text-sm mb-1"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    Read
+                  </motion.p>
+                  <motion.p 
+                    className="text-3xl font-bold text-orange-400"
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.6, type: "spring", stiffness: 150 }}
+                  >
+                    {analytics.read}
+                  </motion.p>
                 </div>
-                <div className="w-14 h-14 bg-amber-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Eye className="w-7 h-7 text-amber-300" />
-                </div>
+                <motion.div 
+                  className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center group-hover:bg-orange-500/30"
+                  whileHover={{ scale: 1.2 }}
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    transition: { duration: 2, repeat: Infinity }
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Eye className="w-6 h-6 text-orange-400" />
+                </motion.div>
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-xl border border-white/20 hover:border-green-400 transition-all duration-300 hover:shadow-lg group"
+              initial={{ opacity: 0, y: 50, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: 0.4,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -5,
+                transition: { duration: 0.2 }
+              }}
+              className="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-green-500 transition-all duration-300 hover:shadow-xl hover:shadow-green-500/20 group cursor-pointer"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm mb-1">Replied</p>
-                  <p className="text-3xl font-bold text-green-400">{analytics.replied}</p>
+                  <motion.p 
+                    className="text-slate-400 text-sm mb-1"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                  >
+                    Replied
+                  </motion.p>
+                  <motion.p 
+                    className="text-3xl font-bold text-green-400"
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.7, type: "spring", stiffness: 150 }}
+                  >
+                    {analytics.replied}
+                  </motion.p>
                 </div>
-                <div className="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <CheckCircle className="w-7 h-7 text-green-300" />
-                </div>
+                <motion.div 
+                  className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30"
+                  whileHover={{ 
+                    scale: 1.2,
+                    rotate: [0, 360]
+                  }}
+                  transition={{ duration: 0.8 }}
+                >
+                  <CheckCircle className="w-6 h-6 text-green-400" />
+                </motion.div>
               </div>
             </motion.div>
           </div>
 
-          {/* Filters and Search */}
+          {/* Search and Filters */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="bg-white/10 backdrop-blur-xl p-6 rounded-xl border border-white/20 hover:border-gray-400 transition-all duration-300 shadow-lg mb-6"
+            initial={{ opacity: 0, y: 30, rotateX: -15 }}
+            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ 
+              duration: 0.7, 
+              delay: 0.8,
+              type: "spring",
+              stiffness: 120
+            }}
+            whileHover={{
+              scale: 1.02,
+              boxShadow: "0 20px 50px rgba(0,0,0,0.3)"
+            }}
+            className="bg-slate-800 p-6 rounded-xl border border-slate-700 mb-6"
           >
             <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
               <div className="flex items-center space-x-4 w-full md:w-auto">
                 <div className="relative flex-1 md:w-80">
-                  <Search className="absolute left-3 top-2.5 text-gray-400 w-4 h-4" />
+                  <Search className="absolute left-3 top-2.5 text-slate-400 w-4 h-4" />
                   <input
                     type="text"
                     placeholder="Search contacts..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-white/8 transition-colors duration-200"
+                    className="w-full pl-10 pr-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
 
               <div className="flex items-center space-x-4">
-                <Filter className="text-gray-400 w-5 h-5" />
+                <Filter className="text-slate-400 w-5 h-5" />
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value as any)}
-                  className="bg-white/5 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-white/8 transition-colors duration-200"
+                  className="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 >
-                  <option value="all" className="bg-gray-800">All Status</option>
-                  <option value="new" className="bg-gray-800">New</option>
-                  <option value="read" className="bg-gray-800">Read</option>
-                  <option value="replied" className="bg-gray-800">Replied</option>
+                  <option value="all">All Status</option>
+                  <option value="new">New</option>
+                  <option value="read">Read</option>
+                  <option value="replied">Replied</option>
                 </select>
               </div>
             </div>
@@ -287,15 +421,24 @@ const AdminDashboard: React.FC = () => {
 
           {/* Contacts Table */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="bg-white/10 backdrop-blur-xl rounded-xl border border-white/20 hover:border-slate-400 transition-all duration-300 shadow-xl overflow-hidden"
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ 
+              duration: 0.8, 
+              delay: 1.0,
+              type: "spring",
+              stiffness: 100
+            }}
+            whileHover={{
+              scale: 1.01,
+              transition: { duration: 0.3 }
+            }}
+            className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden"
           >
-            <div className="p-6 border-b border-white/20 bg-white/5">
-              <h2 className="text-2xl font-bold text-indigo-400 flex items-center space-x-3">
-                <div className="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
-                  <MessageSquare className="w-5 h-5 text-indigo-300" />
+            <div className="p-6 border-b border-slate-700 bg-slate-800">
+              <h2 className="text-2xl font-bold text-white flex items-center space-x-3">
+                <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                  <MessageSquare className="w-5 h-5 text-blue-400" />
                 </div>
                 <span>Contact Messages ({filteredContacts.length})</span>
               </h2>
@@ -303,24 +446,36 @@ const AdminDashboard: React.FC = () => {
 
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-white/5">
+                <thead className="bg-slate-700">
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-gray-300">Contact</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-gray-300">Email</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-gray-300">Phone</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-gray-300">Status</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-gray-300">Date</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-gray-300">Actions</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-slate-300">Contact</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-slate-300">Email</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-slate-300">Phone</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-slate-300">Status</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-slate-300">Date</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-slate-300">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/10">
+                <tbody className="divide-y divide-slate-700">
                   {filteredContacts.map((contact, index) => (
                     <motion.tr
                       key={contact.id}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                      className="hover:bg-white/5 transition-all duration-300 cursor-pointer border-l-2 border-transparent hover:border-indigo-400"
+                      initial={{ opacity: 0, x: -50, scale: 0.8 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      transition={{ 
+                        duration: 0.5, 
+                        delay: 1.2 + (index * 0.1),
+                        type: "spring",
+                        stiffness: 120
+                      }}
+                      whileHover={{
+                        scale: 1.02,
+                        x: 5,
+                        backgroundColor: "rgb(51, 65, 85)",
+                        transition: { duration: 0.2 }
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                      className="hover:bg-slate-700 transition-all duration-200 cursor-pointer border-l-2 border-transparent hover:border-blue-500"
                       onClick={() => setSelectedContact(contact)}
                     >
                       <td className="px-6 py-4">
@@ -329,21 +484,21 @@ const AdminDashboard: React.FC = () => {
                             {contact.first_name} {contact.last_name}
                           </p>
                           {contact.message && (
-                            <p className="text-gray-400 text-sm truncate max-w-xs">
+                            <p className="text-slate-400 text-sm truncate max-w-xs">
                               {contact.message}
                             </p>
                           )}
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-gray-300">{contact.email}</td>
-                      <td className="px-6 py-4 text-gray-300">{contact.phone || '—'}</td>
+                      <td className="px-6 py-4 text-slate-300">{contact.email}</td>
+                      <td className="px-6 py-4 text-slate-300">{contact.phone || '—'}</td>
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium text-white ${getStatusColor(contact.status)}`}>
                           {getStatusIcon(contact.status)}
                           <span className="capitalize">{contact.status}</span>
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-gray-300">
+                      <td className="px-6 py-4 text-slate-300">
                         {new Date(contact.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4">
@@ -354,11 +509,11 @@ const AdminDashboard: React.FC = () => {
                               e.stopPropagation();
                               updateContactStatus(contact.id, e.target.value as Contact['status']);
                             }}
-                            className="bg-white/10 border border-white/20 rounded px-2 py-1 text-xs text-white focus:outline-none hover:bg-white/15 transition-colors duration-200"
+                            className="bg-slate-600 border border-slate-500 rounded px-2 py-1 text-xs text-white focus:outline-none hover:bg-slate-500 transition-colors"
                           >
-                            <option value="new" className="bg-gray-800">New</option>
-                            <option value="read" className="bg-gray-800">Read</option>
-                            <option value="replied" className="bg-gray-800">Replied</option>
+                            <option value="new">New</option>
+                            <option value="read">Read</option>
+                            <option value="replied">Replied</option>
                           </select>
                           <button
                             onClick={(e) => {
@@ -378,9 +533,9 @@ const AdminDashboard: React.FC = () => {
 
               {filteredContacts.length === 0 && (
                 <div className="text-center py-12">
-                  <MessageSquare className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-400 text-lg">No contacts found</p>
-                  <p className="text-gray-500 text-sm">
+                  <MessageSquare className="w-16 h-16 text-slate-400 mx-auto mb-4" />
+                  <p className="text-slate-300 text-lg">No contacts found</p>
+                  <p className="text-slate-500 text-sm">
                     {searchTerm || statusFilter !== 'all' 
                       ? 'Try adjusting your search or filters' 
                       : 'Contacts will appear here when people reach out'}
@@ -394,63 +549,85 @@ const AdminDashboard: React.FC = () => {
         {/* Contact Detail Modal */}
         {selectedContact && (
           <div 
-            className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
             onClick={() => setSelectedContact(null)}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.15 }}
+              initial={{ opacity: 0, scale: 0.8, y: 50, rotateX: -15 }}
+              animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
+              exit={{ 
+                opacity: 0, 
+                scale: 0.8, 
+                y: 50,
+                transition: { duration: 0.2 }
+              }}
+              transition={{ 
+                duration: 0.5,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileInView={{
+                boxShadow: [
+                  "0 0 0 rgba(59, 130, 246, 0)",
+                  "0 0 20px rgba(59, 130, 246, 0.3)",
+                  "0 0 0 rgba(59, 130, 246, 0)"
+                ],
+                transition: { duration: 2, repeat: Infinity }
+              }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 rounded-3xl border border-slate-500/30 shadow-2xl shadow-black/50 max-w-2xl w-full max-h-[80vh] overflow-hidden"
+              className="bg-slate-800 rounded-2xl border border-slate-700 shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden"
             >
-              <div className="p-6 border-b border-slate-200 bg-gradient-to-r from-indigo-100 to-purple-100">
+              {/* Modal Header */}
+              <div className="p-6 border-b border-slate-700 bg-slate-800">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 flex items-center space-x-3">
-                                         <div className="w-8 h-8 bg-gradient-to-br from-indigo-200 to-purple-200 rounded-xl flex items-center justify-center">
-                       <Users className="w-5 h-5 text-indigo-300" />
-                     </div>
+                  <h3 className="text-2xl font-bold text-white flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                      <User className="w-5 h-5 text-blue-400" />
+                    </div>
                     <span>Contact Details</span>
                   </h3>
                   <button
                     onClick={() => setSelectedContact(null)}
-                    className="text-gray-400 hover:text-white p-3 rounded-xl hover:bg-gradient-to-r hover:from-red-500/20 hover:to-red-600/20 transition-all duration-200 hover:scale-105 group"
+                    className="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-700 transition-all duration-200"
                   >
-                    <span className="text-lg group-hover:rotate-90 transition-transform duration-200">✕</span>
+                    <span className="text-xl">✕</span>
                   </button>
                 </div>
               </div>
 
+              {/* Modal Content */}
               <div className="p-6 space-y-6 max-h-[60vh] overflow-y-auto">
+                {/* Name Row */}
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-4 rounded-xl border border-blue-200">
-                    <label className="block text-sm font-medium text-blue-300 mb-2 flex items-center">
-                      <div className="w-4 h-4 bg-blue-500/30 rounded mr-2"></div>
+                  <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
+                    <label className="block text-sm font-medium text-blue-400 mb-2 flex items-center">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
                       First Name
                     </label>
                     <p className="text-white font-medium text-lg">{selectedContact.first_name}</p>
                   </div>
-                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-200">
-                    <label className="block text-sm font-medium text-purple-300 mb-2 flex items-center">
-                      <div className="w-4 h-4 bg-purple-500/30 rounded mr-2"></div>
+                  <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
+                    <label className="block text-sm font-medium text-purple-400 mb-2 flex items-center">
+                      <div className="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
                       Last Name
                     </label>
                     <p className="text-white font-medium text-lg">{selectedContact.last_name}</p>
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl border border-green-200">
-                  <label className="block text-sm font-medium text-green-300 mb-2 flex items-center">
+                {/* Email */}
+                <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
+                  <label className="block text-sm font-medium text-green-400 mb-2 flex items-center">
                     <Mail className="w-4 h-4 mr-2" />
                     Email
                   </label>
                   <p className="text-white font-medium text-lg break-all">{selectedContact.email}</p>
                 </div>
 
+                {/* Phone */}
                 {selectedContact.phone && (
-                  <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-4 rounded-xl border border-yellow-200">
-                    <label className="block text-sm font-medium text-yellow-300 mb-2 flex items-center">
+                  <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
+                    <label className="block text-sm font-medium text-yellow-400 mb-2 flex items-center">
                       <Phone className="w-4 h-4 mr-2" />
                       Phone
                     </label>
@@ -458,50 +635,73 @@ const AdminDashboard: React.FC = () => {
                   </div>
                 )}
 
+                {/* Message */}
                 {selectedContact.message && (
-                  <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-4 rounded-xl border border-indigo-500/20">
-                    <label className="block text-sm font-medium text-indigo-300 mb-3 flex items-center">
+                  <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
+                    <label className="block text-sm font-medium text-indigo-400 mb-3 flex items-center">
                       <MessageSquare className="w-4 h-4 mr-2" />
                       Message
                     </label>
-                    <div className="bg-gradient-to-br from-slate-200 to-gray-200 p-4 rounded-xl border border-slate-300">
+                    <div className="bg-slate-600 p-4 rounded-lg border border-slate-500">
                       <p className="text-white leading-relaxed whitespace-pre-wrap">
-                      {selectedContact.message}
-                    </p>
+                        {selectedContact.message}
+                      </p>
                     </div>
                   </div>
                 )}
 
+                {/* Status and Date Row */}
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-1">Status</label>
-                    <span className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium text-white ${getStatusColor(selectedContact.status)}`}>
+                    <label className="block text-sm font-medium text-slate-400 mb-2">Status</label>
+                    <span className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium text-white ${getStatusColor(selectedContact.status)}`}>
                       {getStatusIcon(selectedContact.status)}
                       <span className="capitalize">{selectedContact.status}</span>
                     </span>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-1">Received</label>
+                    <label className="block text-sm font-medium text-slate-400 mb-2 flex items-center">
+                      <Calendar className="w-4 h-4 mr-1" />
+                      Received
+                    </label>
                     <p className="text-white">{new Date(selectedContact.created_at).toLocaleString()}</p>
                   </div>
                 </div>
 
-                <div className="flex space-x-3 pt-4">
-                  <button
+                {/* Action Buttons */}
+                <motion.div 
+                  className="flex space-x-3 pt-4 border-t border-slate-700"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <motion.button
                     onClick={() => updateContactStatus(selectedContact.id, 'read')}
-                    className="flex-1 bg-gradient-to-r from-amber-200 to-yellow-200 hover:from-amber-300 hover:to-yellow-300 text-amber-300 px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/20 flex items-center justify-center space-x-2"
+                    className="flex-1 bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:shadow-lg flex items-center justify-center space-x-2"
+                    whileHover={{ 
+                      scale: 1.05,
+                      boxShadow: "0 10px 30px rgba(234, 88, 12, 0.4)"
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
                   >
                     <Eye className="w-4 h-4" />
                     <span>Mark as Read</span>
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     onClick={() => updateContactStatus(selectedContact.id, 'replied')}
-                    className="flex-1 bg-gradient-to-r from-green-200 to-emerald-200 hover:from-green-300 hover:to-emerald-300 text-green-300 px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-green-500/20 flex items-center justify-center space-x-2"
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:shadow-lg flex items-center justify-center space-x-2"
+                    whileHover={{ 
+                      scale: 1.05,
+                      boxShadow: "0 10px 30px rgba(34, 197, 94, 0.4)"
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
                   >
                     <CheckCircle className="w-4 h-4" />
                     <span>Mark as Replied</span>
-                  </button>
-                </div>
+                  </motion.button>
+                </motion.div>
               </div>
             </motion.div>
           </div>

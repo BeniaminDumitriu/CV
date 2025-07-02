@@ -11,15 +11,22 @@ import { motion } from 'framer-motion';
 import { useSpring, a as three } from '@react-spring/three';
 import { DirectionalLight } from './DirectionalLight';
 
-// Robust Pointer Lock Controls with silent error handling
+// Robust Pointer Lock Controls with fixed diagonal movement
 const RobustPointerLockControls: React.FC = () => {
   const { camera, gl } = useThree();
   const controlsRef = useRef<any>(null);
   const [isLocked, setIsLocked] = useState(false);
   const mouseSensitivity = 0.002;
   
+  // Store rotation values to avoid gimbal lock
+  const rotation = useRef({ x: 0, y: 0 });
+  
   useEffect(() => {
     const canvas = gl.domElement;
+    
+    // Initialize rotation from camera
+    rotation.current.x = camera.rotation.x;
+    rotation.current.y = camera.rotation.y;
     
     // Manual pointer lock implementation with better error handling
     const handleCanvasClick = async () => {
@@ -43,12 +50,18 @@ const RobustPointerLockControls: React.FC = () => {
       const deltaX = event.movementX * mouseSensitivity;
       const deltaY = event.movementY * mouseSensitivity;
 
-      // Apply rotation to camera
-      camera.rotation.y -= deltaX;
-      camera.rotation.x -= deltaY;
+      // Update stored rotation values
+      rotation.current.y -= deltaX;
+      rotation.current.x -= deltaY;
 
-      // Clamp vertical rotation
-      camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
+      // Clamp vertical rotation to prevent flipping
+      rotation.current.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, rotation.current.x));
+
+      // Apply rotation in correct order to avoid gimbal lock
+      camera.rotation.order = 'YXZ';
+      camera.rotation.y = rotation.current.y;
+      camera.rotation.x = rotation.current.x;
+      camera.rotation.z = 0; // Prevent roll
     };
 
     // Add event listeners
@@ -118,7 +131,7 @@ const useInteractions = () => {
   return context;
 };
 
-// Interactive Laptop Component - FIXED SCREEN POSITION
+// Interactive Laptop Component - Static for performance
 const InteractiveLaptop3D = ({ position }: { position: [number, number, number] }) => {
   const laptopRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
@@ -131,13 +144,7 @@ const InteractiveLaptop3D = ({ position }: { position: [number, number, number] 
     config: { tension: 280, friction: 60 }
   });
   
-  useFrame((state) => {
-    if (laptopRef.current && open) {
-      const t = state.clock.getElapsedTime();
-      laptopRef.current.rotation.y = Math.sin(t / 10) / 10;
-      laptopRef.current.position.y = position[1] + Math.sin(t) / 20;
-    }
-  });
+  // NO useFrame - static for performance
 
   return (
     <group 
@@ -405,20 +412,13 @@ const TrophyDisplayCase = ({ position }: { position: [number, number, number] })
   </group>
 );
 
-// Interactive Trophy (Updated for Display Case)
+// Interactive Trophy - Pure CSS animations
 const InteractiveTrophy = ({ position }: { position: [number, number, number] }) => {
   const trophyRef = useRef<THREE.Group>(null);
   const { interactions } = useInteractions();
   const showAchievements = interactions.trophyOpen;
   
-  useFrame((state) => {
-    if (trophyRef.current) {
-      trophyRef.current.rotation.y = Math.sin(state.clock.getElapsedTime()) / 4;
-      if (showAchievements) {
-        trophyRef.current.position.y = position[1] + Math.sin(state.clock.getElapsedTime() * 2) / 20;
-      }
-    }
-  });
+  // NO useFrame - using CSS animations for performance
   
   return (
     <group ref={trophyRef} position={position}>
@@ -583,17 +583,13 @@ const InteractiveNotebook = ({ position }: { position: [number, number, number] 
   );
 };
 
-// Interactive Phone on Shelf
+// Interactive Phone - Static for performance
 const InteractivePhone = ({ position }: { position: [number, number, number] }) => {
   const { interactions } = useInteractions();
   const showContact = interactions.phoneOpen;
   const phoneRef = useRef<THREE.Group>(null);
   
-  useFrame((state) => {
-    if (phoneRef.current && showContact) {
-      phoneRef.current.rotation.y = Math.sin(state.clock.getElapsedTime() * 2) / 20;
-    }
-  });
+  // NO useFrame - static for performance
   
   return (
     <group ref={phoneRef} position={position}>
@@ -829,21 +825,10 @@ const FloatingProject = ({
   link?: string;
   image: string;
 }) => {
-  const ref = useRef<THREE.Group>(null);
+  // NO useFrame - pure CSS animations for smooth performance
   
-  useFrame((state) => {
-    if (ref.current) {
-      const t = state.clock.getElapsedTime();
-      ref.current.position.y = position[1] + Math.sin(t + position[0]) * 0.1;
-      ref.current.rotation.y = Math.sin(t * 0.3) * 0.05;
-    }
-  });
-
-  // No click interaction for projects
-
   return (
     <group 
-      ref={ref} 
       position={position}
     >
       {/* Project Frame */}
@@ -884,10 +869,19 @@ const FloatingProject = ({
           flexDirection: 'column',
           cursor: 'default',
           border: '3px solid transparent',
-          transform: 'scale(1)',
           transition: 'all 0.4s ease',
-          boxShadow: '0 0 10px rgba(0,0,0,0.3)'
+          boxShadow: '0 0 10px rgba(0,0,0,0.3)',
+          animation: `smoothFloat${Math.abs(position[0] + position[2])} 8s ease-in-out infinite`
         }}>
+          <style>{`
+            @keyframes smoothFloat${Math.abs(position[0] + position[2])} {
+              0% { transform: translateY(0px) rotateY(0deg) scale(1); }
+              25% { transform: translateY(-8px) rotateY(2deg) scale(1.02); }
+              50% { transform: translateY(0px) rotateY(0deg) scale(1); }
+              75% { transform: translateY(8px) rotateY(-2deg) scale(0.98); }
+              100% { transform: translateY(0px) rotateY(0deg) scale(1); }
+            }
+          `}</style>
           <div style={{
             width: '100%',
             height: '180px',
@@ -1042,11 +1036,16 @@ const SecondFloor = ({ position }: { position: [number, number, number] }) => (
   </group>
 );
 
-// Proximity Detection Hook
+// Optimized Proximity Detection Hook - Reduced update frequency
 const useProximityDetection = (camera: THREE.Camera, objects: { position: [number, number, number], name: string, distance: number, id: string }[]) => {
   const [nearbyObject, setNearbyObject] = useState<{ name: string, id: string } | null>(null);
+  const frameCounter = useRef(0);
   
   useFrame(() => {
+    // Only check proximity every 5 frames for better responsiveness
+    frameCounter.current++;
+    if (frameCounter.current % 5 !== 0) return;
+    
     const cameraPos = camera.position;
     let closestObject: { name: string, id: string } | null = null;
     let minDistance = Infinity;
@@ -1066,24 +1065,58 @@ const useProximityDetection = (camera: THREE.Camera, objects: { position: [numbe
   return nearbyObject;
 };
 
-// Interactive Exclamation Mark Component
-const ExclamationMark = ({ position, visible }: { position: [number, number, number], visible: boolean }) => {
-  const ref = useRef<THREE.Group>(null);
-  
-  useFrame((state) => {
-    if (ref.current && visible) {
-      ref.current.rotation.y = Math.sin(state.clock.getElapsedTime() * 2) / 4;
-      ref.current.position.y = position[1] + Math.sin(state.clock.getElapsedTime() * 3) / 10;
-    }
-  });
-  
+// Interactive Prompt Component - Shows next to objects
+const InteractivePrompt = ({ 
+  position, 
+  message, 
+  visible, 
+  objectId 
+}: { 
+  position: [number, number, number];
+  message: string;
+  visible: boolean;
+  objectId: string;
+}) => {
   if (!visible) return null;
   
   return (
-    <group ref={ref} position={[position[0], position[1] + 1, position[2]]}>
+    <group position={[position[0], position[1] + 1.5, position[2]]}>
       <Html center>
         <div style={{
-          fontSize: '24px',
+          background: 'rgba(0,0,0,0.9)',
+          color: 'white',
+          padding: '8px 16px',
+          borderRadius: '20px',
+          fontSize: '12px',
+          fontWeight: 'bold',
+          border: '2px solid #00ff88',
+          boxShadow: '0 0 20px rgba(0,255,136,0.4)',
+          animation: 'bounce 1s infinite',
+          whiteSpace: 'nowrap',
+          textAlign: 'center'
+        }}>
+          <style>{`
+            @keyframes bounce {
+              0%, 100% { transform: translateY(0px) scale(1); }
+              50% { transform: translateY(-5px) scale(1.05); }
+            }
+          `}</style>
+          {message}
+        </div>
+      </Html>
+    </group>
+  );
+};
+
+// Simple Exclamation Mark for availability
+const ExclamationMark = ({ position, visible }: { position: [number, number, number], visible: boolean }) => {
+  if (!visible) return null;
+  
+  return (
+    <group position={[position[0], position[1] + 1, position[2]]}>
+      <Html center>
+        <div style={{
+          fontSize: '20px',
           color: '#FFD700',
           fontWeight: 'bold',
           textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
@@ -1093,6 +1126,40 @@ const ExclamationMark = ({ position, visible }: { position: [number, number, num
         </div>
       </Html>
     </group>
+  );
+};
+
+// Proximity Prompts Component
+const ProximityPrompts = ({ onExitHouse }: { onExitHouse: () => void }) => {
+  const { camera } = useThree();
+  const { toggleInteraction, interactions } = useInteractions();
+  
+  // Interactive objects with their prompts
+  const interactiveObjects = [
+    { position: [0.5, 0.95, 0] as [number, number, number], name: "💻 Press F to open Laptop", distance: 3, id: "laptop" },
+    { position: [-14.5, 3, -8] as [number, number, number], name: "📋 Press F to view Skills", distance: 5, id: "whiteboard" },
+    { position: [14.5, 3, -8] as [number, number, number], name: "🖥️ Press F to view Education", distance: 5, id: "monitor" },
+    { position: [-8, 1, -12] as [number, number, number], name: "🏆 Press F to view Achievements", distance: 3, id: "trophy" },
+    { position: [-8, 1.3, 10] as [number, number, number], name: "📖 Press F to read Experience", distance: 3, id: "notebook" },
+    { position: [8, 1.15, 10] as [number, number, number], name: "📱 Press F for Contact (E=Email, L=LinkedIn)", distance: 3, id: "phone" },
+    { position: [0, 1.5, 14.9] as [number, number, number], name: "🚪 Press F to exit house", distance: 4, id: "door" },
+  ];
+  
+  const nearbyObject = useProximityDetection(camera, interactiveObjects);
+  
+  // Show prompt only for the nearest object
+  return (
+    <>
+      {interactiveObjects.map(obj => (
+        <InteractivePrompt
+          key={obj.id}
+          position={obj.position}
+          message={obj.name}
+          visible={nearbyObject?.id === obj.id}
+          objectId={obj.id}
+        />
+      ))}
+    </>
   );
 };
 
@@ -1304,30 +1371,8 @@ const FirstPersonControls = ({
     }
   });
 
-  // Return the nearby object info for UI display
-  return (
-    <Html position={[0, 0, 0]} style={{ pointerEvents: 'none' }}>
-      {nearbyObject && (
-        <div style={{
-          position: 'fixed',
-          bottom: '120px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(0,0,0,0.8)',
-          color: 'white',
-          padding: '10px 20px',
-          borderRadius: '25px',
-          fontSize: '14px',
-          fontWeight: 'bold',
-          border: '2px solid #00ff88',
-          boxShadow: '0 0 20px rgba(0,255,136,0.3)',
-          animation: 'pulse 2s infinite'
-        }}>
-          {nearbyObject.name}
-        </div>
-      )}
-    </Html>
-  );
+  // No UI display here - each object will show its own prompt
+  return null;
 };
 
 // House Exterior
@@ -1531,7 +1576,7 @@ const HouseExterior = ({ onEnterHouse }: { onEnterHouse: () => void }) => {
   );
 };
 
-// Game World Interior
+// Game World Interior with Proximity Detection
 const GameWorldInterior = ({ onExitHouse }: { onExitHouse: () => void }) => {
   const { interactions } = useInteractions();
   
@@ -1611,6 +1656,9 @@ const GameWorldInterior = ({ onExitHouse }: { onExitHouse: () => void }) => {
         <ExclamationMark position={[-8, 1.3, 10]} visible={!interactions.notebookOpen} />
         <ExclamationMark position={[8, 1.15, 10]} visible={!interactions.phoneOpen} />
         <ExclamationMark position={[0, 1.5, 14.9]} visible={true} />
+
+        {/* Interactive Prompts near objects */}
+        <ProximityPrompts onExitHouse={onExitHouse} />
         
         {/* Projects are decorative - no interaction markers */}
         

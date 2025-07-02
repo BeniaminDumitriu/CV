@@ -14,12 +14,10 @@ import {
 } from 'lucide-react';
 import LoadingScreen from './LoadingScreen';
 import HeroSection from './HeroSection';
-import GameWorld from './GameWorld';
 import { useNavigate } from 'react-router-dom';
 
 const MainPortfolio: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [currentSection, setCurrentSection] = useState('hero');
   const navigate = useNavigate();
 
   // Add custom CSS for 3D effects
@@ -39,51 +37,14 @@ const MainPortfolio: React.FC = () => {
     };
   }, []);
 
-  // Global cleanup for pointer lock
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      if (document.pointerLockElement) {
-        document.exitPointerLock();
-      }
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.hidden && document.pointerLockElement) {
-        document.exitPointerLock();
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      window.removeEventListener('visibilitychange', handleVisibilityChange);
-      if (document.pointerLockElement) {
-        document.exitPointerLock();
-      }
-    };
-  }, []);
+  // Cleanup code is now handled in GamePage component
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
   };
 
   const handleEnterGame = () => {
-    if (document.pointerLockElement) {
-      document.exitPointerLock();
-    }
-    setCurrentSection('game');
-  };
-
-  const handleBackToSite = () => {
-    if (document.pointerLockElement) {
-      document.exitPointerLock();
-    }
-    
-    setTimeout(() => {
-      setCurrentSection('hero');
-    }, 100);
+    navigate('/game');
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -108,7 +69,7 @@ const MainPortfolio: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {!isLoading && currentSection === 'hero' && (
+      {!isLoading && (
         <div className="min-h-screen">
           {/* Navigation */}
           <nav className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
@@ -134,7 +95,7 @@ const MainPortfolio: React.FC = () => {
                     <FolderOpen size={16} />
                     <span>Projects</span>
                   </button>
-                  <button onClick={() => scrollToSection('game-section')} className="flex items-center space-x-2 hover:text-purple-400 transition-colors">
+                  <button onClick={handleEnterGame} className="flex items-center space-x-2 hover:text-purple-400 transition-colors">
                     <Gamepad2 size={16} />
                     <span>Game Mode</span>
                   </button>
@@ -148,7 +109,7 @@ const MainPortfolio: React.FC = () => {
           </nav>
 
           {/* Hero Section */}
-          <HeroSection onEnterGame={handleEnterGame} />
+          <HeroSection />
           
           {/* About Section */}
           <section id="about" className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center py-20">
@@ -290,7 +251,7 @@ const MainPortfolio: React.FC = () => {
                 >
                   <h3 className="text-2xl font-bold mb-6 text-purple-400">🔧 Tools & Tech</h3>
                   <div className="space-y-3">
-                    {['GitHub', 'BitBucket', 'Eclipse', 'SQL', 'Android Studio', 'OOP', 'Trace32', 'Vector CANoe', 'JSON', 'XAML'].map((skill, i) => (
+                    {['GitHub', 'BitBucket', 'Eclipse', 'SQL', 'Android Studio', 'OOP', 'JSON', 'XAML'].map((skill, i) => (
                       <motion.div
                         key={skill}
                         initial={{ opacity: 0, x: -20 }}
@@ -663,7 +624,7 @@ const MainPortfolio: React.FC = () => {
                   {
                     title: "Weather App EFM32",
                     description: "Weather application on 32-bit microcontroller",
-                    tech: ["C", "Eclipse", "Trace32", "Vector CANoe"],
+                    tech: ["C", "Eclipse"],
                     color: "from-cyan-500 to-blue-500"
                   }
                 ].map((project, i) => (
@@ -700,9 +661,92 @@ const MainPortfolio: React.FC = () => {
                 transition={{ duration: 1 }}
                 className="space-y-8"
               >
-                <h2 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 mb-8">
-                  🎮 SURPRISE!
-                </h2>
+                <div className="relative flex items-center justify-center mb-8">
+                  {/* Elegant geometric accent */}
+                  <motion.div
+                    className="absolute left-1/2 transform -translate-x-1/2 -top-4"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                  >
+                    <svg width="120" height="8" viewBox="0 0 120 8" className="opacity-60">
+                      <defs>
+                        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="transparent" />
+                          <stop offset="20%" stopColor="#a855f7" />
+                          <stop offset="50%" stopColor="#ec4899" />
+                          <stop offset="80%" stopColor="#ef4444" />
+                          <stop offset="100%" stopColor="transparent" />
+                        </linearGradient>
+                      </defs>
+                      <motion.line
+                        x1="0" y1="4" x2="120" y2="4"
+                        stroke="url(#lineGradient)"
+                        strokeWidth="2"
+                        initial={{ pathLength: 0 }}
+                        whileInView={{ pathLength: 1 }}
+                        transition={{ duration: 1.2, delay: 0.3 }}
+                      />
+                      {/* Subtle dots */}
+                      <motion.circle cx="30" cy="4" r="1.5" fill="#a855f7" opacity="0.8"
+                        initial={{ scale: 0 }} whileInView={{ scale: 1 }} transition={{ delay: 1.2 }} />
+                      <motion.circle cx="60" cy="4" r="2" fill="#ec4899"
+                        initial={{ scale: 0 }} whileInView={{ scale: 1 }} transition={{ delay: 1.4 }} />
+                      <motion.circle cx="90" cy="4" r="1.5" fill="#ef4444" opacity="0.8"
+                        initial={{ scale: 0 }} whileInView={{ scale: 1 }} transition={{ delay: 1.6 }} />
+                    </svg>
+                  </motion.div>
+
+                  <motion.h2 
+                    className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 relative"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                  >
+                    SURPRISE!
+                    
+                    {/* Subtle floating particles */}
+                    <motion.div className="absolute inset-0 pointer-events-none">
+                      {[1, 2, 3].map((i) => (
+                        <motion.div
+                          key={i}
+                          className="absolute w-1 h-1 bg-purple-400 rounded-full opacity-60"
+                          style={{
+                            left: `${20 + i * 25}%`,
+                            top: `${10 + i * 5}%`,
+                          }}
+                          animate={{
+                            y: [-10, 10, -10],
+                            opacity: [0.6, 0.2, 0.6],
+                          }}
+                          transition={{
+                            duration: 3 + i * 0.5,
+                            repeat: Infinity,
+                            delay: i * 0.5,
+                          }}
+                        />
+                      ))}
+                    </motion.div>
+                  </motion.h2>
+
+                  {/* Elegant bottom accent */}
+                  <motion.div
+                    className="absolute left-1/2 transform -translate-x-1/2 -bottom-2"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                  >
+                    <svg width="80" height="4" viewBox="0 0 80 4" className="opacity-40">
+                      <motion.rect
+                        x="0" y="1" width="80" height="2" rx="1"
+                        fill="url(#lineGradient)"
+                        initial={{ scaleX: 0 }}
+                        whileInView={{ scaleX: 1 }}
+                        transition={{ duration: 1, delay: 1 }}
+                      />
+                    </svg>
+                  </motion.div>
+                </div>
                 <p className="text-2xl text-gray-300 mb-8">
                   Ready for something completely different?
                 </p>
@@ -749,20 +793,6 @@ const MainPortfolio: React.FC = () => {
               </motion.div>
             </div>
           </section>
-        </div>
-      )}
-
-      {!isLoading && currentSection === 'game' && (
-        <div className="relative">
-          <button
-            onClick={handleBackToSite}
-            className="fixed top-4 left-4 z-50 flex items-center space-x-2 px-6 py-3 bg-black backdrop-blur-md border border-white/20
-                     rounded-full text-white hover:bg-black/90 transition-all duration-300"
-          >
-            <ArrowLeft size={16} />
-            <span>Back to Website</span>
-          </button>
-          <GameWorld />
         </div>
       )}
     </div>
