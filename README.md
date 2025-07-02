@@ -176,7 +176,7 @@ vercel
 ## 🤝 Need Help?
 
 Ai întrebări? Contactează-mă:
-- **Email:** benidumitriu5@gmail.com
+- **Email:** beniamindumitriu@gmail.com
 - **LinkedIn:** [linkedin.com/in/beniamin-dumitriu](https://linkedin.com/in/beniamin-dumitriu)
 - **GitHub:** [github.com/BeniaminDumitriu](https://github.com/BeniaminDumitriu)
 
