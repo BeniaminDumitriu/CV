@@ -19,8 +19,8 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const AdminLogin: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isCreatingAdmin, setIsCreatingAdmin] = useState(false);
-  const { signIn, signUp } = useAuth();
+
+  const { signIn } = useAuth();
   const navigate = useNavigate();
 
   const {
@@ -52,25 +52,7 @@ const AdminLogin: React.FC = () => {
     }
   };
 
-  const createFirstAdmin = async (data: LoginFormData) => {
-    setIsCreatingAdmin(true);
-    
-    try {
-      const { error: signUpError } = await signUp(data.email, data.password);
-      
-      if (signUpError) {
-        toast.error('Error creating admin account: ' + signUpError.message);
-        return;
-      }
 
-      toast.success('Admin account created! Please check your email to confirm, then sign in.');
-    } catch (error: any) {
-      console.error('Sign up error:', error);
-      toast.error('Something went wrong. Please try again.');
-    } finally {
-      setIsCreatingAdmin(false);
-    }
-  };
 
   return (
     <>
@@ -186,7 +168,7 @@ const AdminLogin: React.FC = () => {
               {/* Submit Buttons */}
               <motion.button
                 type="submit"
-                disabled={isSubmitting || isCreatingAdmin}
+                disabled={isSubmitting}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full flex items-center justify-center space-x-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 rounded-xl font-semibold text-white transition-all duration-300 shadow-lg hover:shadow-blue-500/25 mb-3"
@@ -204,33 +186,7 @@ const AdminLogin: React.FC = () => {
                 )}
               </motion.button>
 
-              {/* Create First Admin Button */}
-              <motion.button
-                type="button"
-                onClick={() => {
-                  const formData = {
-                    email: (document.querySelector('input[type="email"]') as HTMLInputElement)?.value || '',
-                    password: (document.querySelector('input[type="password"]') as HTMLInputElement)?.value || ''
-                  };
-                  createFirstAdmin(formData);
-                }}
-                disabled={isSubmitting || isCreatingAdmin}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full flex items-center justify-center space-x-3 px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:from-gray-600 disabled:to-gray-700 rounded-xl font-semibold text-white transition-all duration-300 shadow-lg hover:shadow-green-500/25"
-              >
-                {isCreatingAdmin ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span>Creating Admin...</span>
-                  </>
-                ) : (
-                  <>
-                    <Shield size={20} />
-                    <span>Create First Admin</span>
-                  </>
-                )}
-              </motion.button>
+
             </form>
 
             {/* Footer */}

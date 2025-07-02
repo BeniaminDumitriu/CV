@@ -6,12 +6,7 @@ const EMAILJS_TEMPLATE_ID_CONFIRMATION = process.env.REACT_APP_EMAILJS_ADMIN_TEM
 const EMAILJS_TEMPLATE_ID_NOTIFICATION = process.env.REACT_APP_EMAILJS_CLIENT_TEMPLATE_ID || 'template_4e0nz16'; // Auto-Reply - TRIMIS CĂTRE CLIENT
 const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || 'iXAraLhbNy1n92yF2';
 
-console.log('🔧 EmailJS Config:', {
-  SERVICE_ID: EMAILJS_SERVICE_ID,
-  CONFIRMATION_TEMPLATE: EMAILJS_TEMPLATE_ID_CONFIRMATION,
-  NOTIFICATION_TEMPLATE: EMAILJS_TEMPLATE_ID_NOTIFICATION,
-  PUBLIC_KEY: EMAILJS_PUBLIC_KEY.slice(0, 10) + '...' // doar primele caractere pentru debug
-});
+// EmailJS initialized successfully
 
 // Initialize EmailJS
 emailjs.init(EMAILJS_PUBLIC_KEY);
@@ -33,8 +28,7 @@ export const sendConfirmationEmail = async (formData: ContactFormData): Promise<
       from_name: 'Beniamin Dumitriu',
     };
 
-    console.log('📧 Sending AUTO-REPLY to CLIENT:', formData.email);
-    console.log('📧 Template params:', templateParams);
+    // Sending auto-reply confirmation email
 
     await emailjs.send(
       EMAILJS_SERVICE_ID,
@@ -42,7 +36,7 @@ export const sendConfirmationEmail = async (formData: ContactFormData): Promise<
       templateParams
     );
 
-    console.log('✅ Auto-reply sent successfully to CLIENT');
+    // Auto-reply sent successfully
     return true;
   } catch (error) {
     console.error('❌ Error sending auto-reply to client:', error);
@@ -63,7 +57,7 @@ export const sendNotificationEmail = async (formData: ContactFormData): Promise<
       reply_to: formData.email,
     };
 
-    console.log('🔔 Sending NOTIFICATION to ADMIN:', 'beniamindumitriu@gmail.com');
+    // Sending notification to admin
 
     await emailjs.send(
       EMAILJS_SERVICE_ID,
@@ -71,7 +65,7 @@ export const sendNotificationEmail = async (formData: ContactFormData): Promise<
       templateParams
     );
 
-    console.log('✅ Notification sent successfully to ADMIN');
+    // Notification sent successfully
     return true;
   } catch (error) {
     console.error('❌ Error sending notification to admin:', error);
@@ -113,7 +107,7 @@ export const sendContactEmails = async (formData: ContactFormData): Promise<{
   confirmationSent: boolean;
   notificationSent: boolean;
 }> => {
-  console.log('📧 Sending contact emails...');
+  // Processing contact form submission
   
   // Send both emails in parallel for better performance
   const [confirmationSent, notificationSent] = await Promise.all([
