@@ -10,7 +10,11 @@ import {
   Phone,
   ArrowLeft,
   MousePointer,
-  Sparkles
+  Sparkles,
+  Menu,
+  X,
+  Settings,
+  Shield
 } from 'lucide-react';
 import LoadingScreen from './LoadingScreen';
 import HeroSection from './HeroSection';
@@ -18,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 
 const MainPortfolio: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   // Add custom CSS for 3D effects
@@ -78,6 +83,8 @@ const MainPortfolio: React.FC = () => {
                 <div className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
                   BD
                 </div>
+                
+                {/* Desktop Navigation */}
                 <div className="hidden md:flex space-x-8">
                   <button onClick={() => scrollToSection('hero')} className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
                     <Home size={16} />
@@ -103,9 +110,111 @@ const MainPortfolio: React.FC = () => {
                     <Mail size={16} />
                     <span>Contact Me</span>
                   </button>
+                  <button onClick={() => navigate('/admin')} className="flex items-center space-x-2 hover:text-yellow-400 transition-colors bg-yellow-600/20 px-3 py-1 rounded-lg">
+                    <Shield size={16} />
+                    <span>Admin</span>
+                  </button>
+                </div>
+
+                {/* Mobile Hamburger */}
+                <div className="md:hidden flex items-center space-x-3">
+                  <button onClick={() => navigate('/admin')} className="flex items-center justify-center w-10 h-10 rounded-lg bg-yellow-600/20 hover:bg-yellow-600/30 transition-colors">
+                    <Shield size={20} className="text-yellow-400" />
+                  </button>
+                  <button
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+                  >
+                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                  </button>
                 </div>
               </div>
             </div>
+
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+              {isMobileMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="md:hidden bg-black/95 backdrop-blur-md border-t border-white/10"
+                >
+                  <div className="px-4 py-6 space-y-4">
+                    <button 
+                      onClick={() => {
+                        scrollToSection('hero');
+                        setIsMobileMenuOpen(false);
+                      }} 
+                      className="flex items-center space-x-3 w-full text-left py-3 px-4 rounded-lg hover:bg-white/10 transition-colors"
+                    >
+                      <Home size={20} />
+                      <span className="text-lg">Home</span>
+                    </button>
+                    <button 
+                      onClick={() => {
+                        scrollToSection('about');
+                        setIsMobileMenuOpen(false);
+                      }} 
+                      className="flex items-center space-x-3 w-full text-left py-3 px-4 rounded-lg hover:bg-white/10 transition-colors"
+                    >
+                      <User size={20} />
+                      <span className="text-lg">About</span>
+                    </button>
+                    <button 
+                      onClick={() => {
+                        scrollToSection('skills');
+                        setIsMobileMenuOpen(false);
+                      }} 
+                      className="flex items-center space-x-3 w-full text-left py-3 px-4 rounded-lg hover:bg-white/10 transition-colors"
+                    >
+                      <Code size={20} />
+                      <span className="text-lg">Skills</span>
+                    </button>
+                    <button 
+                      onClick={() => {
+                        scrollToSection('projects');
+                        setIsMobileMenuOpen(false);
+                      }} 
+                      className="flex items-center space-x-3 w-full text-left py-3 px-4 rounded-lg hover:bg-white/10 transition-colors"
+                    >
+                      <FolderOpen size={20} />
+                      <span className="text-lg">Projects</span>
+                    </button>
+                    <button 
+                      onClick={() => {
+                        handleEnterGame();
+                        setIsMobileMenuOpen(false);
+                      }} 
+                      className="flex items-center space-x-3 w-full text-left py-3 px-4 rounded-lg hover:bg-purple-500/20 transition-colors text-purple-400"
+                    >
+                      <Gamepad2 size={20} />
+                      <span className="text-lg">Game Mode</span>
+                    </button>
+                    <button 
+                      onClick={() => {
+                        handleContactClick();
+                        setIsMobileMenuOpen(false);
+                      }} 
+                      className="flex items-center space-x-3 w-full text-left py-3 px-4 rounded-lg bg-green-600/20 hover:bg-green-600/30 transition-colors text-green-400"
+                    >
+                      <Mail size={20} />
+                      <span className="text-lg">Contact Me</span>
+                    </button>
+                    <button 
+                      onClick={() => {
+                        navigate('/admin');
+                        setIsMobileMenuOpen(false);
+                      }} 
+                      className="flex items-center space-x-3 w-full text-left py-3 px-4 rounded-lg bg-yellow-600/20 hover:bg-yellow-600/30 transition-colors text-yellow-400"
+                    >
+                      <Shield size={20} />
+                      <span className="text-lg">Admin</span>
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </nav>
 
           {/* Hero Section */}
@@ -113,32 +222,32 @@ const MainPortfolio: React.FC = () => {
           
           {/* About Section */}
           <section id="about" className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center py-20">
-            <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
                 className="space-y-6"
               >
-                <h2 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
                   About Me
                 </h2>
-                <p className="text-xl text-gray-300 leading-relaxed">
+                <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
                   Hello! I'm <span className="text-blue-400 font-semibold">Beniamin Dumitriu</span>, 
                   a web developer passionate about robotics and programming.
                 </p>
-                <p className="text-lg text-gray-400 leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-400 leading-relaxed">
                   With a <span className="text-purple-400">Computer Science degree from Stefan cel Mare University</span> (2020-2024),
                   I've developed a passion for modern technologies. I adapt easily to new people and enjoy being engaged in constructive discussions.
                   My hobbies include traveling, cycling, and playing volleyball.
                 </p>
-                <div className="grid grid-cols-2 gap-4 mt-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
                   <div className="bg-white/5 p-4 rounded-lg border border-white/10">
                     <h3 className="text-blue-400 font-semibold mb-2 flex items-center space-x-2">
                       <Mail size={16} />
                       <span>Contact</span>
                     </h3>
-                    <p className="text-sm text-gray-300">beniamindumitriu@gmail.com</p>
+                    <p className="text-sm text-gray-300 break-all">beniamindumitriu@gmail.com</p>
                   </div>
                   <div className="bg-white/5 p-4 rounded-lg border border-white/10">
                     <h3 className="text-purple-400 font-semibold mb-2 flex items-center space-x-2">
@@ -156,24 +265,24 @@ const MainPortfolio: React.FC = () => {
                 transition={{ duration: 0.8 }}
                 className="relative"
               >
-                <div className="bg-blue-500/20 p-8 rounded-2xl border border-white/10">
-                  <h3 className="text-2xl font-bold mb-6 text-center">Journey Highlights</h3>
+                <div className="bg-blue-500/20 p-6 sm:p-8 rounded-2xl border border-white/10">
+                  <h3 className="text-xl sm:text-2xl font-bold mb-6 text-center">Journey Highlights</h3>
                   <div className="space-y-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                      <span className="text-gray-300">🎓 Computer Science Degree - Stefan cel Mare (2020-2024)</span>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                      <span className="text-sm sm:text-base text-gray-300">🎓 Computer Science Degree - Stefan cel Mare (2020-2024)</span>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="text-gray-300">💼 Junior Web Developer - Navitech Systems (2024-Present)</span>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-3 h-3 bg-green-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                      <span className="text-sm sm:text-base text-gray-300">💼 Junior Web Developer - Navitech Systems (2024-Present)</span>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                      <span className="text-gray-300">🏆 ASSIST Tech Challenge 2023 - First Place</span>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-3 h-3 bg-purple-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                      <span className="text-sm sm:text-base text-gray-300">🏆 ASSIST Tech Challenge 2023 - First Place</span>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                      <span className="text-gray-300">🚀 Passionate about robotics and new technologies</span>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-3 h-3 bg-yellow-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                      <span className="text-sm sm:text-base text-gray-300">🚀 Passionate about robotics and new technologies</span>
                     </div>
                   </div>
                 </div>
@@ -183,25 +292,25 @@ const MainPortfolio: React.FC = () => {
 
           {/* Skills Section */}
           <section id="skills" className="min-h-screen bg-gradient-to-br from-black to-gray-900 flex items-center py-20">
-            <div className="max-w-7xl flex flex-col mx-auto px-4">
+            <div className="max-w-7xl flex flex-col mx-auto px-4 sm:px-6 lg:px-8">
               <motion.h2 
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="text-5xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500"
+                className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-12 lg:mb-16 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500"
               >
                 Technical Arsenal
               </motion.h2>
               
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
                 {/* Languages */}
                 <motion.div
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.1 }}
-                  className="bg-blue-500/10 p-6 md:pr-32 rounded-xl border border-white/10"
+                  className="bg-blue-500/10 p-4 sm:p-6 rounded-xl border border-white/10"
                 >
-                  <h3 className="text-2xl font-bold mb-6 text-blue-400">💻 Languages</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-blue-400">💻 Languages</h3>
                   <div className="space-y-3">
                     {['C/C++', 'Python', 'Java', 'JavaScript', 'TypeScript', 'Kotlin', 'C#'].map((skill, i) => (
                       <motion.div
@@ -223,9 +332,9 @@ const MainPortfolio: React.FC = () => {
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                  className="bg-green-500/10 p-6 rounded-xl border border-white/10"
+                  className="bg-green-500/10 p-4 sm:p-6 rounded-xl border border-white/10"
                 >
-                  <h3 className="text-2xl font-bold mb-6 text-green-400">🚀 Frameworks</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-green-400">🚀 Frameworks</h3>
                   <div className="space-y-3">
                     {['React', 'Svelte', 'NestJs', 'Tailwind CSS', 'HTML', 'CSS'].map((skill, i) => (
                       <motion.div
@@ -247,9 +356,9 @@ const MainPortfolio: React.FC = () => {
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
-                  className="bg-purple-500/10 p-6 rounded-xl border border-white/10"
+                  className="bg-purple-500/10 p-4 sm:p-6 rounded-xl border border-white/10"
                 >
-                  <h3 className="text-2xl font-bold mb-6 text-purple-400">🔧 Tools & Tech</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-purple-400">🔧 Tools & Tech</h3>
                   <div className="space-y-3">
                     {['GitHub', 'BitBucket', 'Eclipse', 'SQL', 'Android Studio', 'OOP', 'JSON', 'XAML'].map((skill, i) => (
                       <motion.div
@@ -271,12 +380,12 @@ const MainPortfolio: React.FC = () => {
 
           {/* Projects Section */}
           <section id="projects" className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center py-20">
-            <div className="max-w-6xl mx-auto px-4">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.h2 
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="text-5xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-red-500"
+                className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-12 lg:mb-16 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-red-500"
               >
                 Projects
               </motion.h2>
@@ -578,7 +687,7 @@ const MainPortfolio: React.FC = () => {
                 </motion.div>
               </motion.div>
               
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {[
                   {
                     title: "VinylLaz",
@@ -635,10 +744,10 @@ const MainPortfolio: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.1 * i }}
                     whileHover={{ scale: 1.05 }}
-                    className={`bg-gradient-to-br ${project.color}/10 p-6 rounded-xl border border-white/10 hover:border-white/20 transition-all ${project.url ? 'cursor-pointer' : ''}`}
+                    className={`bg-gradient-to-br ${project.color}/10 p-4 sm:p-6 rounded-xl border border-white/10 hover:border-white/20 transition-all ${project.url ? 'cursor-pointer' : ''}`}
                   >
-                    <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
-                    <p className="text-gray-300 mb-4 leading-relaxed">{project.description}</p>
+                    <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">{project.title}</h3>
+                    <p className="text-sm sm:text-base text-gray-300 mb-4 leading-relaxed">{project.description}</p>
                     <div className="flex flex-wrap gap-2">
                       {project.tech.map((tech) => (
                         <span key={tech} className="px-3 py-1 bg-white/10 rounded-full text-sm font-mono">
@@ -654,12 +763,12 @@ const MainPortfolio: React.FC = () => {
 
           {/* Game Section - The Surprise! */}
           <section id="game-section" className="min-h-screen bg-black flex items-center justify-center py-20">
-            <div className="max-w-4xl mx-auto px-4 text-center">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1 }}
-                className="space-y-8"
+                className="space-y-6 sm:space-y-8"
               >
                 <div className="relative flex items-center justify-center mb-8">
                   {/* Elegant geometric accent */}
@@ -698,7 +807,7 @@ const MainPortfolio: React.FC = () => {
                   </motion.div>
 
                   <motion.h2 
-                    className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 relative"
+                    className="text-4xl sm:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 relative"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
@@ -747,10 +856,10 @@ const MainPortfolio: React.FC = () => {
                     </svg>
                   </motion.div>
                 </div>
-                <p className="text-2xl text-gray-300 mb-8">
+                <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8">
                   Ready for something completely different?
                 </p>
-                <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-base sm:text-lg lg:text-xl text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed">
                   Explore my CV in a completely immersive 3D world! Walk around, interact with objects, 
                   and discover my professional journey in the most unique way possible.
                 </p>
@@ -759,35 +868,35 @@ const MainPortfolio: React.FC = () => {
                   onClick={handleEnterGame}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center place-self-center space-x-3 px-12 py-6 text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 rounded-full
+                  className="flex items-center place-self-center space-x-2 sm:space-x-3 px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 rounded-full
                            hover:from-purple-700 hover:to-pink-700 transition-all duration-300 
                            shadow-lg hover:shadow-purple-500/25 border border-purple-500/30"
                 >
-                  <Sparkles size={28} />
+                  <Sparkles size={24} className="sm:w-7 sm:h-7" />
                   <span>Enter the 3D CV World</span>
                 </motion.button>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-                  <div className="bg-white/5 p-6 rounded-lg border border-white/10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-12">
+                  <div className="bg-white/5 p-4 sm:p-6 rounded-lg border border-white/10">
                     <h3 className="text-purple-400 font-bold mb-2 flex items-center space-x-2">
-                      <Home size={20} />
-                      <span>Explore</span>
+                      <Home size={18} className="sm:w-5 sm:h-5" />
+                      <span className="text-sm sm:text-base">Explore</span>
                     </h3>
-                    <p className="text-sm text-gray-300">Walk through a virtual house containing my entire CV</p>
+                    <p className="text-xs sm:text-sm text-gray-300">Walk through a virtual house containing my entire CV</p>
                   </div>
-                  <div className="bg-white/5 p-6 rounded-lg border border-white/10">
+                  <div className="bg-white/5 p-4 sm:p-6 rounded-lg border border-white/10">
                     <h3 className="text-pink-400 font-bold mb-2 flex items-center space-x-2">
-                      <MousePointer size={20} />
-                      <span>Interact</span>
+                      <MousePointer size={18} className="sm:w-5 sm:h-5" />
+                      <span className="text-sm sm:text-base">Interact</span>
                     </h3>
-                    <p className="text-sm text-gray-300">Press 'F' on objects to discover my skills and projects</p>
+                    <p className="text-xs sm:text-sm text-gray-300">Press 'F' on objects to discover my skills and projects</p>
                   </div>
-                  <div className="bg-white/5 p-6 rounded-lg border border-white/10">
+                  <div className="bg-white/5 p-4 sm:p-6 rounded-lg border border-white/10 sm:col-span-2 lg:col-span-1">
                     <h3 className="text-red-400 font-bold mb-2 flex items-center space-x-2">
-                      <Sparkles size={20} />
-                      <span>Enjoy</span>
+                      <Sparkles size={18} className="sm:w-5 sm:h-5" />
+                      <span className="text-sm sm:text-base">Enjoy</span>
                     </h3>
-                    <p className="text-sm text-gray-300">Experience CV exploration like never before!</p>
+                    <p className="text-xs sm:text-sm text-gray-300">Experience CV exploration like never before!</p>
                   </div>
                 </div>
               </motion.div>

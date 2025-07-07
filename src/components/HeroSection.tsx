@@ -374,15 +374,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
 
       {/* Main Content */}
       <motion.div
-        className="relative z-10 text-center px-4 max-w-7xl mx-auto"
+        className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
         variants={containerVariants}
         initial="hidden"
         animate={controls}
       >
         {/* Ultra-Dramatic Name Display */}
-        <motion.div variants={nameVariants} className="mb-8">
+        <motion.div variants={nameVariants} className="mb-6 sm:mb-8">
           <motion.h1 
-            className="relative text-6xl md:text-8xl lg:text-9xl font-black tracking-wider mb-6"
+            className="relative text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-wider mb-4 sm:mb-6"
             style={{
               background: "linear-gradient(45deg, #ffffff, #00b4d8, #0077b6, #ffffff)",
               backgroundSize: "400% 400%",
@@ -408,7 +408,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
             
             {/* Glowing outline */}
             <motion.div
-              className="absolute inset-0 text-6xl md:text-8xl lg:text-9xl font-black tracking-wider"
+              className="absolute inset-0 text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-wider"
               style={{
                 WebkitTextStroke: "2px rgba(0, 180, 216, 0.3)",
                 WebkitTextFillColor: "transparent",
@@ -438,7 +438,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
             transition={{ delay: 1, duration: 1.5, type: "spring" }}
           >
             <motion.p 
-              className="text-3xl md:text-5xl font-light tracking-widest text-cyan-300"
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-light tracking-widest text-cyan-300"
               style={{
                 textShadow: "0 0 20px rgba(6, 182, 212, 0.6), 0 0 40px rgba(6, 182, 212, 0.4)",
               }}
@@ -469,9 +469,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
         </motion.div>
 
         {/* Enhanced Subtitle */}
-        <motion.div variants={itemVariants} className="mb-16">
+        <motion.div variants={itemVariants} className="mb-12 sm:mb-16">
           <motion.div 
-            className="inline-block px-8 py-4 rounded-2xl border-2 border-blue-400/30 backdrop-blur-xl"
+            className="inline-block px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-2xl border-2 border-blue-400/30 backdrop-blur-xl"
             style={{
               background: "linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(6, 182, 212, 0.1))",
               boxShadow: "0 8px 32px rgba(59, 130, 246, 0.2)",
@@ -482,17 +482,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
               borderColor: "rgba(59, 130, 246, 0.6)",
             }}
           >
-            <p className="text-xl md:text-2xl text-blue-300 font-mono font-medium">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-blue-300 font-mono font-medium">
               Full Stack Developer & UI/UX Enthusiast
             </p>
           </motion.div>
         </motion.div>
 
         {/* Enhanced Interactive Buttons */}
-        <motion.div variants={itemVariants} className="mb-20 flex flex-wrap justify-center gap-6">
+        <motion.div variants={itemVariants} className="mb-16 sm:mb-20 flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-6">
           {onContactClick && (
             <motion.button
-              className="group relative px-10 py-5 rounded-2xl border-2 border-emerald-400/50 backdrop-blur-xl overflow-hidden"
+              className="group relative px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-2xl border-2 border-emerald-400/50 backdrop-blur-xl overflow-hidden"
               style={{
                 background: "linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1))",
               }}
@@ -515,7 +515,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
-                <span className="text-white font-mono text-lg font-medium">📧 Contact Me</span>
+                <span className="text-white font-mono text-sm sm:text-base lg:text-lg font-medium">📧 Contact Me</span>
                 <motion.svg 
                   className="w-6 h-6 text-emerald-400" 
                   fill="none" 
@@ -531,7 +531,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
           )}
           
           <motion.button
-            className="group relative px-10 py-5 rounded-2xl border-2 border-purple-400/50 backdrop-blur-xl overflow-hidden"
+            className="group relative px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-2xl border-2 border-purple-400/50 backdrop-blur-xl overflow-hidden"
             style={{
               background: "linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.1))",
             }}
@@ -554,7 +554,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
               />
-              <span className="text-white font-mono text-lg font-medium">Explore Traditional CV</span>
+              <span className="text-white font-mono text-sm sm:text-base lg:text-lg font-medium">Explore Traditional CV</span>
               <motion.svg 
                 className="w-6 h-6 text-purple-400" 
                 fill="none" 
@@ -569,7 +569,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
           </motion.button>
           
           <motion.button
-            className="group relative px-10 py-5 rounded-2xl border-2 border-cyan-400/50 backdrop-blur-xl overflow-hidden"
+            className="group relative px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-2xl border-2 border-cyan-400/50 backdrop-blur-xl overflow-hidden"
             style={{
               background: "linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(8, 145, 178, 0.1))",
             }}
@@ -592,7 +592,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity, delay: 1 }}
                 />
-                <span className="text-white font-mono text-lg font-medium">🎮 Enter 3D CV World</span>
+                <span className="text-white font-mono text-sm sm:text-base lg:text-lg font-medium">🎮 Enter 3D CV World</span>
                 <motion.svg 
                   className="w-6 h-6 text-cyan-400" 
                   fill="none" 
@@ -608,16 +608,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
         </motion.div>
 
         {/* Enhanced Tech Stack */}
-        <motion.div variants={itemVariants} className="mb-16">
+        <motion.div variants={itemVariants} className="mb-12 sm:mb-16">
           <motion.h3 
-            className="text-2xl font-mono text-gray-400 mb-8"
+            className="text-lg sm:text-xl lg:text-2xl font-mono text-gray-400 mb-6 sm:mb-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2 }}
           >
             Tech Arsenal
           </motion.h3>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
           {[
               { name: 'React', color: '#61DAFB', icon: '⚛️' },
               { name: 'TypeScript', color: '#3178C6', icon: '🔷' },
@@ -628,7 +628,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
           ].map((tech, index) => (
             <motion.div
               key={tech.name}
-                className="group relative px-6 py-3 rounded-xl backdrop-blur-xl border border-gray-600/30 overflow-hidden"
+                className="group relative px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-xl backdrop-blur-xl border border-gray-600/30 overflow-hidden"
                 initial={{ opacity: 0, scale: 0, rotate: -180 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{ 
@@ -651,8 +651,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
                   transition={{ duration: 0.3 }}
                 />
                 <div className="relative flex items-center space-x-2">
-                  <span className="text-xl">{tech.icon}</span>
-                  <span className="text-gray-300 font-mono font-medium">{tech.name}</span>
+                  <span className="text-lg sm:text-xl">{tech.icon}</span>
+                  <span className="text-sm sm:text-base text-gray-300 font-mono font-medium">{tech.name}</span>
                 </div>
             </motion.div>
           ))}
@@ -661,7 +661,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
 
         {/* Enhanced Scroll Indicator */}
         <motion.div
-          className="absolute -bottom-20 left-1/2 transform -translate-x-1/2"
+          className="absolute -bottom-16 sm:-bottom-20 left-1/2 transform -translate-x-1/2"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 4, duration: 1.5 }}
@@ -672,7 +672,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             whileHover={{ scale: 1.1, color: "#06d6a0" }}
           >
-            <span className="text-sm font-mono mb-3 tracking-wider">Discover More</span>
+            <span className="text-xs sm:text-sm font-mono mb-2 sm:mb-3 tracking-wider">Discover More</span>
             <motion.div
               className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center"
               whileHover={{ borderColor: "#06d6a0" }}
