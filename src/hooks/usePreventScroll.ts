@@ -4,6 +4,8 @@ export const usePreventScroll = () => {
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Check if it's a mobile device to avoid conflicts with mobile controls
+    const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const element = elementRef.current;
     if (!element) return;
 
@@ -18,18 +20,29 @@ export const usePreventScroll = () => {
     };
 
     const handleTouchStart = (e: TouchEvent) => {
-      e.stopPropagation();
+      // On mobile, don't interfere with touch controls
+      if (!isMobile) {
+        e.stopPropagation();
+      }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+      // On mobile, don't prevent default to avoid conflicts with mobile controls
+      if (!isMobile) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
     };
 
     // Add event listeners
     element.addEventListener('wheel', handleWheel, { passive: false });
-    element.addEventListener('touchstart', handleTouchStart, { passive: false });
-    element.addEventListener('touchmove', handleTouchMove, { passive: false });
+    
+    // Only add touch event listeners on non-mobile devices to avoid conflicts
+    if (!isMobile) {
+      element.addEventListener('touchstart', handleTouchStart, { passive: false });
+      element.addEventListener('touchmove', handleTouchMove, { passive: false });
+    }
+    
     element.addEventListener('mousedown', preventDefault);
     element.addEventListener('mousemove', preventDefault);
 
@@ -47,8 +60,13 @@ export const usePreventScroll = () => {
 
     return () => {
       element.removeEventListener('wheel', handleWheel);
-      element.removeEventListener('touchstart', handleTouchStart);
-      element.removeEventListener('touchmove', handleTouchMove);
+      
+      // Only remove touch event listeners if they were added (non-mobile devices)
+      if (!isMobile) {
+        element.removeEventListener('touchstart', handleTouchStart);
+        element.removeEventListener('touchmove', handleTouchMove);
+      }
+      
       element.removeEventListener('mousedown', preventDefault);
       element.removeEventListener('mousemove', preventDefault);
       element.removeEventListener('mouseenter', handleMouseEnter);

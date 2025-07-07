@@ -137,8 +137,8 @@ const DecorativeMacBook = () => {
               transparent
               opacity={0.3}
             />
-          </mesh>
-
+        </mesh>
+        
           {/* Apple Logo */}
           <mesh position={[0, 2.0, -0.07]}>
             <circleGeometry args={[0.12]} />
@@ -147,18 +147,18 @@ const DecorativeMacBook = () => {
               transparent
               opacity={0.4}
             />
-          </mesh>
-
+        </mesh>
+        
           {/* Subtle Screen Glow */}
           <mesh position={[0, 1.2, 0.1]}>
             <planeGeometry args={[4.2, 2.8]} />
-            <meshBasicMaterial 
+          <meshBasicMaterial 
               color="#0099ff" 
-              transparent
+            transparent 
               opacity={0.05} 
               side={THREE.DoubleSide}
-            />
-          </mesh>
+          />
+        </mesh>
         </group>
       </group>
     </Float>
@@ -454,9 +454,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-            >
-              DUMITRIU
-            </motion.p>
+          >
+            DUMITRIU
+          </motion.p>
             
             {/* Underline effect */}
             <motion.div
@@ -524,7 +524,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </motion.svg>
               </div>
             </motion.button>
@@ -563,7 +563,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
                 whileHover={{ y: 5 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </motion.svg>
             </div>
           </motion.button>
@@ -587,7 +587,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
                 transition={{ duration: 0.6 }}
               />
               <div className="relative flex items-center space-x-4">
-                <motion.div 
+            <motion.div 
                   className="w-4 h-4 bg-cyan-400 rounded-full"
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity, delay: 1 }}
@@ -601,7 +601,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
                   whileHover={{ rotate: 45, scale: 1.2 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </motion.svg>
               </div>
             </motion.button>
@@ -618,16 +618,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
             Tech Arsenal
           </motion.h3>
           <div className="flex flex-wrap justify-center gap-4">
-            {[
+          {[
               { name: 'React', color: '#61DAFB', icon: '⚛️' },
               { name: 'TypeScript', color: '#3178C6', icon: '🔷' },
               { name: 'Node.js', color: '#339933', icon: '🟢' },
               { name: 'Python', color: '#3776AB', icon: '🐍' },
               { name: 'Three.js', color: '#000000', icon: '🎮' },
               { name: 'Next.js', color: '#000000', icon: '▲' }
-            ].map((tech, index) => (
-              <motion.div
-                key={tech.name}
+          ].map((tech, index) => (
+            <motion.div
+              key={tech.name}
                 className="group relative px-6 py-3 rounded-xl backdrop-blur-xl border border-gray-600/30 overflow-hidden"
                 initial={{ opacity: 0, scale: 0, rotate: -180 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -637,12 +637,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
                   type: "spring",
                   stiffness: 200 
                 }}
-                whileHover={{ 
+              whileHover={{ 
                   scale: 1.15, 
                   boxShadow: `0 10px 30px ${tech.color}40`,
                   borderColor: tech.color,
-                }}
-              >
+              }}
+            >
                 <motion.div
                   className="absolute inset-0 opacity-20"
                   style={{ backgroundColor: tech.color }}
@@ -654,8 +654,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
                   <span className="text-xl">{tech.icon}</span>
                   <span className="text-gray-300 font-mono font-medium">{tech.name}</span>
                 </div>
-              </motion.div>
-            ))}
+            </motion.div>
+          ))}
           </div>
         </motion.div>
 

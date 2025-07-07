@@ -12,7 +12,7 @@ export interface KeyboardControls {
   l: boolean; // L key for linkedin
 }
 
-export const useKeyboardControls = (): KeyboardControls => {
+export const useKeyboardControls = (mobileControls?: any): KeyboardControls => {
   const [keys, setKeys] = useState<KeyboardControls>({
     forward: false,
     backward: false,
@@ -42,7 +42,10 @@ export const useKeyboardControls = (): KeyboardControls => {
           setKeys(prev => ({ ...prev, right: true }));
           break;
         case 'space':
-          event.preventDefault();
+          // Only prevent default on desktop to avoid page scroll
+          if (!('ontouchstart' in window)) {
+            event.preventDefault();
+          }
           setKeys(prev => ({ ...prev, jump: true }));
           break;
         case 'shiftleft':
@@ -101,6 +104,21 @@ export const useKeyboardControls = (): KeyboardControls => {
       window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
+
+  // Merge keyboard controls with mobile controls if provided
+  if (mobileControls) {
+    return {
+      forward: keys.forward || mobileControls.forward,
+      backward: keys.backward || mobileControls.backward,
+      left: keys.left || mobileControls.left,
+      right: keys.right || mobileControls.right,
+      jump: keys.jump || mobileControls.jump,
+      run: keys.run, // Run is keyboard only (Shift key)
+      interact: keys.interact || mobileControls.interact,
+      e: keys.e || mobileControls.e,
+      l: keys.l || mobileControls.l,
+    };
+  }
 
   return keys;
 }; 

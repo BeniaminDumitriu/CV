@@ -10,6 +10,8 @@ import { usePreventScroll } from '../hooks/usePreventScroll';
 import { motion } from 'framer-motion';
 import { useSpring, a as three } from '@react-spring/three';
 import { DirectionalLight } from './DirectionalLight';
+import MobileCameraControl from './MobileCameraControl';
+import MobileUI from './MobileUI';
 
 // Robust Pointer Lock Controls with fixed diagonal movement
 const RobustPointerLockControls: React.FC = () => {
@@ -112,10 +114,19 @@ const InteractionProvider = ({ children }: { children: React.ReactNode }) => {
   });
   
   const toggleInteraction = (id: string) => {
-    setInteractions(prev => ({
-      ...prev,
-      [`${id}Open`]: !prev[`${id}Open` as keyof typeof prev]
-    }));
+    try {
+      console.log('🔄 Toggling interaction:', id);
+      setInteractions(prev => {
+        const newState = {
+          ...prev,
+          [`${id}Open`]: !prev[`${id}Open` as keyof typeof prev]
+        };
+        console.log('✅ New interaction state:', newState);
+        return newState;
+      });
+    } catch (error) {
+      console.error('❌ Error in toggleInteraction:', error);
+    }
   };
   
   return (
@@ -153,10 +164,50 @@ const InteractiveLaptop3D = ({ position }: { position: [number, number, number] 
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
     >
-      {/* Laptop Base/Keyboard - Normal laptop size */}
+      {/* Laptop Base/Keyboard - Ultra detail */}
       <mesh castShadow receiveShadow>
         <boxGeometry args={[0.8, 0.05, 0.6]} />
-        <meshStandardMaterial color={hovered ? "#3A3A3A" : "#2C2C2C"} metalness={0.9} roughness={0.05} />
+        <meshStandardMaterial 
+          color={hovered ? "#3A3A3A" : "#2C2C2C"} 
+          metalness={0.95} 
+          roughness={0.02}
+          envMapIntensity={2.0}
+          transparent={false}
+          normalScale={[1, 1]}
+        />
+      </mesh>
+      
+      {/* Keyboard Keys for detail */}
+      {Array.from({ length: 48 }, (_, i) => {
+        const row = Math.floor(i / 12);
+        const col = i % 12;
+        const x = (col - 5.5) * 0.06;
+        const z = (row - 1.5) * 0.08;
+        return (
+          <mesh 
+            key={i} 
+            position={[x, 0.03, z]} 
+            castShadow
+          >
+            <boxGeometry args={[0.05, 0.02, 0.06]} />
+            <meshStandardMaterial 
+              color="#1A1A1A"
+              metalness={0.1}
+              roughness={0.9}
+            />
+          </mesh>
+        );
+      })}
+      
+      {/* Trackpad */}
+      <mesh position={[0, 0.03, 0.15]} castShadow receiveShadow>
+        <boxGeometry args={[0.25, 0.01, 0.15]} />
+        <meshStandardMaterial 
+          color="#0A0A0A"
+          metalness={0.8}
+          roughness={0.1}
+          envMapIntensity={1.5}
+        />
       </mesh>
       
       {/* Clean Laptop with Base - No Keys */}
@@ -166,41 +217,88 @@ const InteractiveLaptop3D = ({ position }: { position: [number, number, number] 
         rotation-x={openValue.to([0, 1], [1.5, -0.3])}
         position={[0, 0.025, -0.25]}
       >
-        {/* Screen Frame */}
-        <mesh position={[0, 0.35, 0]} castShadow>
+        {/* Screen Frame - Ultra Enhanced */}
+        <mesh position={[0, 0.35, 0]} castShadow receiveShadow>
           <boxGeometry args={[0.75, 0.5, 0.04]} />
-          <meshStandardMaterial color="#1A1A1A" metalness={0.8} />
+          <meshStandardMaterial 
+            color="#1A1A1A" 
+            metalness={0.95} 
+            roughness={0.05}
+            envMapIntensity={2.0}
+          />
         </mesh>
         
-        {/* Screen Display */}
-        <mesh position={[0, 0.35, 0.02]}>
-          <boxGeometry args={[0.68, 0.43, 0.01]} />
+        {/* Screen Display - Ultra Enhanced */}
+        <mesh position={[0, 0.35, 0.021]}>
+          <boxGeometry args={[0.68, 0.43, 0.005]} />
           <meshStandardMaterial 
             color="#000000" 
-            emissive={open ? "#001122" : "#000000"}
-            emissiveIntensity={open ? 0.3 : 0.1}
+            emissive={open ? "#002244" : "#000000"}
+            emissiveIntensity={open ? 0.8 : 0.05}
+            metalness={0.05}
+            roughness={0.05}
+            transparent={true}
+            opacity={0.95}
+          />
+        </mesh>
+        
+        {/* Screen Bezel Details */}
+        <mesh position={[0, 0.35, 0.025]}>
+          <boxGeometry args={[0.72, 0.47, 0.002]} />
+          <meshStandardMaterial 
+            color="#333333" 
+            metalness={0.8} 
+            roughness={0.2}
+          />
+        </mesh>
+        
+        {/* Apple Logo (enhanced) */}
+        <mesh position={[0, 0.35, -0.021]}>
+          <cylinderGeometry args={[0.05, 0.05, 0.001]} />
+          <meshStandardMaterial 
+            color="#FFFFFF" 
+            emissive="#FFFFFF"
+            emissiveIntensity={0.3}
+            metalness={0.9}
+            roughness={0.1}
           />
         </mesh>
       </three.group>
       
       {/* CV Content on SCREEN when open */}
       {open && (
-        <Html position={[0, 0.38, -0.23]} rotation={[-0.3, 0, 0]} transform>
+        <Html 
+          position={[0, 0.38, -0.23]} 
+          rotation={[-0.3, 0, 0]} 
+          transform
+          distanceFactor={1.5}
+          sprite
+        >
           <div style={{
-            width: '100px',
-            height: '60px',
+            width: '840px',
+            height: '540px',
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            borderRadius: '3px',
-            padding: '5px',
-            fontSize: '5px',
+            borderRadius: '24px',
+            padding: '60px',
+            fontSize: '33px',
             color: 'white',
             textAlign: 'center',
-            border: '1px solid #FFD700',
-            boxShadow: '0 0 10px rgba(102, 126, 234, 0.5)'
+            border: '9px solid #FFD700',
+            boxShadow: '0 0 75px rgba(255, 215, 0, 0.4)',
+            imageRendering: 'crisp-edges',
+            WebkitFontSmoothing: 'antialiased',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
           }}>
-            <h3 style={{margin: '0 0 3px 0', fontSize: '6px'}}>💻 Beniamin Dumitriu</h3>
-            <p style={{margin: '0 0 2px 0', fontSize: '4px'}}>Junior Web Developer</p>
-            <p style={{margin: '0', fontSize: '3px', opacity: 0.9}}>Passionate about creating amazing digital experiences!</p>
+            <h3 style={{margin: '0 0 36px 0', fontSize: '48px', color: '#FFD700', fontWeight: 'bold'}}>💻 Beniamin Dumitriu</h3>
+            <p style={{margin: '0 0 24px 0', fontSize: '36px', fontWeight: 'normal'}}>Junior Web Developer</p>
+            <p style={{margin: '0', fontSize: '30px', opacity: 0.9, lineHeight: '1.4'}}>Passionate about creating amazing digital experiences!</p>
+            <div style={{marginTop: '36px', fontSize: '27px', opacity: 0.8}}>
+              <p style={{margin: '12px 0'}}>🚀 React • Three.js • TypeScript</p>
+              <p style={{margin: '0'}}>✨ Building the future, one pixel at a time</p>
+            </div>
           </div>
         </Html>
       )}
@@ -422,26 +520,46 @@ const InteractiveTrophy = ({ position }: { position: [number, number, number] })
   
   return (
     <group ref={trophyRef} position={position}>
-      {/* Trophy Cup */}
-      <mesh position={[0, 0.3, 0]}>
+      {/* Trophy Cup - Enhanced */}
+      <mesh position={[0, 0.3, 0]} castShadow receiveShadow>
         <cylinderGeometry args={[0.3, 0.5, 0.8]} />
-        <meshStandardMaterial color="#FFD700" metalness={0.9} roughness={0.1} />
+        <meshStandardMaterial 
+          color="#FFD700" 
+          metalness={0.95} 
+          roughness={0.05}
+          envMapIntensity={2.0}
+        />
       </mesh>
       
-      {/* Trophy Handles */}
-      <mesh position={[-0.4, 0.3, 0]} rotation={[0, 0, Math.PI / 2]}>
+      {/* Trophy Handles - Enhanced */}
+      <mesh position={[-0.4, 0.3, 0]} rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
         <torusGeometry args={[0.15, 0.03]} />
-        <meshStandardMaterial color="#FFD700" metalness={0.9} />
+        <meshStandardMaterial 
+          color="#FFD700" 
+          metalness={0.95} 
+          roughness={0.05}
+          envMapIntensity={2.0}
+        />
       </mesh>
-      <mesh position={[0.4, 0.3, 0]} rotation={[0, 0, Math.PI / 2]}>
+      <mesh position={[0.4, 0.3, 0]} rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
         <torusGeometry args={[0.15, 0.03]} />
-        <meshStandardMaterial color="#FFD700" metalness={0.9} />
+        <meshStandardMaterial 
+          color="#FFD700" 
+          metalness={0.95} 
+          roughness={0.05}
+          envMapIntensity={2.0}
+        />
       </mesh>
       
-      {/* Trophy Base */}
-      <mesh position={[0, -0.2, 0]}>
+      {/* Trophy Base - Enhanced */}
+      <mesh position={[0, -0.2, 0]} castShadow receiveShadow>
         <cylinderGeometry args={[0.4, 0.4, 0.3]} />
-        <meshStandardMaterial color="#8B4513" roughness={0.3} />
+        <meshStandardMaterial 
+          color="#8B4513" 
+          roughness={0.8} 
+          metalness={0.05}
+          envMapIntensity={0.5}
+        />
       </mesh>
       
       {showAchievements && (
@@ -826,7 +944,7 @@ const FloatingProject = ({
   image: string;
 }) => {
   // NO useFrame - pure CSS animations for smooth performance
-  
+
   return (
     <group 
       position={position}
@@ -1166,12 +1284,14 @@ const ProximityPrompts = ({ onExitHouse }: { onExitHouse: () => void }) => {
 // Simple First Person Controller
 const FirstPersonControls = ({ 
   onDoorInteraction, 
-  isInsideHouse 
+  isInsideHouse,
+  mobileControls
 }: { 
   onDoorInteraction: () => void;
   isInsideHouse: boolean;
+  mobileControls?: any;
 }) => {
-  const keys = useKeyboardControls();
+  const keys = useKeyboardControls(mobileControls);
   const { camera } = useThree();
   const velocity = useRef(new THREE.Vector3());
   const direction = useRef(new THREE.Vector3());
@@ -1250,11 +1370,19 @@ const FirstPersonControls = ({
       const currentTime = Date.now();
       if (currentTime - lastInteractionTime.current > 300) { // 300ms cooldown
         
-        // Special case for door - exit house
-        if (nearbyObject.id === 'door') {
-          onDoorInteraction();
-        } else {
-          toggleInteraction(nearbyObject.id);
+        console.log('🎯 F key pressed near object:', nearbyObject.id);
+        
+        try {
+          // Special case for door - exit house
+          if (nearbyObject.id === 'door') {
+            console.log('🚪 Exiting house...');
+            onDoorInteraction();
+          } else {
+            console.log('🔧 Toggling interaction for:', nearbyObject.id);
+            toggleInteraction(nearbyObject.id);
+          }
+        } catch (error) {
+          console.error('❌ Error in F key interaction:', error);
         }
         
         lastInteractionTime.current = currentTime;
@@ -1577,42 +1705,70 @@ const HouseExterior = ({ onEnterHouse }: { onEnterHouse: () => void }) => {
 };
 
 // Game World Interior with Proximity Detection
-const GameWorldInterior = ({ onExitHouse }: { onExitHouse: () => void }) => {
+const GameWorldInterior = ({ onExitHouse, mobileControls, setMobileControls }: { onExitHouse: () => void; mobileControls?: any; setMobileControls?: (controls: any) => void }) => {
   const { interactions } = useInteractions();
   
   return (
     <div style={{ width: '100vw', height: '100vh', background: 'linear-gradient(to bottom, #1a1a1a, #2d2d2d)' }}>
       <Canvas
         shadows
-        camera={{ position: [0, 2.2, 12], fov: 75 }}
+        camera={{ 
+          position: [0, 2.2, 12], 
+          fov: 75,
+          near: 0.01,  // Much closer near plane for better close-up rendering
+          far: 1000
+        }}
         style={{ background: 'linear-gradient(to bottom, #1a1a1a, #2d2d2d)' }}
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+          precision: "highp",
+          stencil: false,
+          depth: true
+        }}
       >
         <Environment preset="city" />
-        <ambientLight intensity={0.2} color="#F0F8FF" />
+        <ambientLight intensity={0.4} color="#F0F8FF" />
         
-        {/* Main Natural Window Light */}
-        <DirectionalLight 
+        {/* Main Natural Window Light - Enhanced */}
+        <directionalLight 
           position={[20, 15, 10]} 
-          targetPosition={[0, 0, 0]}
-          intensity={0.8} 
+          intensity={1.2} 
           color="#FFF8DC"
+          castShadow
+          shadow-mapSize={[4096, 4096]}  // Higher resolution shadows
+          shadow-camera-far={100}
+          shadow-camera-left={-30}
+          shadow-camera-right={30}
+          shadow-camera-top={30}
+          shadow-camera-bottom={-30}
+          shadow-bias={-0.0001}
         />
         
-        {/* Secondary Fill Light */}
-        <DirectionalLight 
+        {/* Secondary Fill Light - Enhanced */}
+        <directionalLight 
           position={[-15, 12, 8]} 
-          targetPosition={[5, 0, -5]}
-          intensity={0.4} 
+          intensity={0.6} 
           color="#E6F3FF"
+          castShadow
+          shadow-mapSize={[2048, 2048]}
+          shadow-camera-far={50}
+          shadow-camera-left={-20}
+          shadow-camera-right={20}
+          shadow-camera-top={20}
+          shadow-camera-bottom={-20}
         />
         
         {/* Warm Interior Ambient */}
         <pointLight position={[0, 8, 0]} intensity={0.2} color="#FFE4B5" />
         
         <RobustPointerLockControls />
+        <MobileCameraControl />
         <FirstPersonControls 
           onDoorInteraction={onExitHouse}
           isInsideHouse={true}
+          mobileControls={mobileControls}
         />
         
         {/* MODERN ORGANIZED CV OBJECTS */}
@@ -1683,13 +1839,14 @@ const GameWorldInterior = ({ onExitHouse }: { onExitHouse: () => void }) => {
           <meshStandardMaterial color="#FFD700" metalness={0.8} />
         </mesh>
         
-        {/* Beautiful Wooden Floor */}
+        {/* Beautiful Wooden Floor - Enhanced */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
           <planeGeometry args={[30, 30]} />
           <meshStandardMaterial 
             color="#8B4513" 
-            roughness={0.8}
-            metalness={0.1}
+            roughness={0.9}
+            metalness={0.05}
+            envMapIntensity={0.3}
           />
         </mesh>
         
@@ -1789,13 +1946,19 @@ const GameWorldInterior = ({ onExitHouse }: { onExitHouse: () => void }) => {
           📱 Press F near ! for interaction
         </div>
       </div>
+
+      {/* Mobile UI Controls for interior */}
+      {setMobileControls && <MobileUI onControlsChange={setMobileControls} />}
     </div>
   );
 };
 
 // Internal Game World Component
 const GameWorldCore: React.FC = () => {
-  const [gameState, setGameState] = useState<'outside' | 'inside'>('outside');
+  // Start inside the house on mobile devices, outside on desktop
+  const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const [gameState, setGameState] = useState<'outside' | 'inside'>(isMobile ? 'inside' : 'outside');
+  const [mobileControls, setMobileControls] = useState<any>(undefined);
   
   usePreventScroll();
 
@@ -1804,11 +1967,21 @@ const GameWorldCore: React.FC = () => {
   };
 
   const handleExitHouse = () => {
-    setGameState('outside');
+    console.log('🔄 Starting house exit transition...');
+    
+    // Add a small delay to prevent sudden Canvas switches
+    setTimeout(() => {
+      try {
+        console.log('✅ Switching to outside state');
+        setGameState('outside');
+      } catch (error) {
+        console.error('❌ Error switching game state:', error);
+      }
+    }, 100);
   };
 
   if (gameState === 'inside') {
-    return <GameWorldInterior onExitHouse={handleExitHouse} />;
+    return <GameWorldInterior onExitHouse={handleExitHouse} mobileControls={mobileControls} setMobileControls={setMobileControls} />;
   }
 
   return (
@@ -1817,32 +1990,46 @@ const GameWorldCore: React.FC = () => {
         shadows
         camera={{ 
           fov: 75, 
-          near: 0.1, 
+          near: 0.01,  // Better close-up rendering
           far: 1000,
           position: [0, 2.2, 10]
         }}
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+          precision: "highp",
+          stencil: false,
+          depth: true
+        }}
       >
         <Environment preset="sunset" />
-        <ambientLight intensity={0.6} />
+        <ambientLight intensity={0.8} color="#F0F8FF" />
         <directionalLight 
           position={[10, 10, 5]} 
-          intensity={1}
+          intensity={1.5}
           castShadow
-          shadow-mapSize={[2048, 2048]}
-          shadow-camera-far={50}
-          shadow-camera-left={-20}
-          shadow-camera-right={20}
-          shadow-camera-top={20}
-          shadow-camera-bottom={-20}
+          shadow-mapSize={[4096, 4096]}  // Higher resolution shadows
+          shadow-camera-far={100}
+          shadow-camera-left={-30}
+          shadow-camera-right={30}
+          shadow-camera-top={30}
+          shadow-camera-bottom={-30}
+          shadow-bias={-0.0001}
         />
         
         <RobustPointerLockControls />
+        <MobileCameraControl />
         <FirstPersonControls 
           onDoorInteraction={handleEnterHouse}
           isInsideHouse={false}
+          mobileControls={mobileControls}
         />
         <HouseExterior onEnterHouse={handleEnterHouse} />
-              </Canvas>
+      </Canvas>
+      
+      {/* Mobile UI Controls */}
+      <MobileUI onControlsChange={setMobileControls} />
         
         {/* Crosshair - visible when pointer is locked */}
         {document.pointerLockElement && (
@@ -1892,9 +2079,29 @@ const suppressPointerLockErrors = () => {
 
 // Main Game World Component with Provider
 const GameWorld: React.FC = () => {
+  const [webglContextLost, setWebglContextLost] = useState(false);
+  
   useEffect(() => {
     // Suppress pointer lock errors
     const restoreConsole = suppressPointerLockErrors();
+    
+    // WebGL context loss handler
+    const handleContextLost = (event: Event) => {
+      console.warn('⚠️ WebGL context lost, attempting recovery...');
+      event.preventDefault();
+      setWebglContextLost(true);
+      
+      // Attempt to recover after a short delay
+      setTimeout(() => {
+        console.log('🔄 Recovering WebGL context...');
+        setWebglContextLost(false);
+      }, 1000);
+    };
+
+    const handleContextRestored = () => {
+      console.log('✅ WebGL context restored successfully');
+      setWebglContextLost(false);
+    };
     
     // Global error handler for unhandled pointer lock errors
     const handleGlobalError = (event: ErrorEvent) => {
@@ -1908,14 +2115,36 @@ const GameWorld: React.FC = () => {
         event.stopPropagation();
         return false;
       }
+      
+      // Check for WebGL context loss in error messages
+      if (message.includes('WebGL') && message.includes('Context Lost')) {
+        console.warn('⚠️ WebGL context lost detected in error message');
+        setWebglContextLost(true);
+        setTimeout(() => setWebglContextLost(false), 1000);
+        event.preventDefault();
+        return false;
+      }
     };
     
     window.addEventListener('error', handleGlobalError);
+    
+    // Add WebGL context event listeners to canvas when available
+    const canvas = document.querySelector('canvas');
+    if (canvas) {
+      canvas.addEventListener('webglcontextlost', handleContextLost);
+      canvas.addEventListener('webglcontextrestored', handleContextRestored);
+    }
     
     // Cleanup function to exit pointer lock when component unmounts
     return () => {
       restoreConsole(); // Restore console
       window.removeEventListener('error', handleGlobalError);
+      
+      // Remove WebGL context event listeners
+      if (canvas) {
+        canvas.removeEventListener('webglcontextlost', handleContextLost);
+        canvas.removeEventListener('webglcontextrestored', handleContextRestored);
+      }
       
       // Safe pointer lock exit
       try {
@@ -1927,6 +2156,19 @@ const GameWorld: React.FC = () => {
       }
     };
   }, []);
+
+  // Show recovery UI if WebGL context is lost
+  if (webglContextLost) {
+    return (
+      <div className="w-full h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white mx-auto mb-4"></div>
+          <h2 className="text-white text-2xl mb-2">🔄 Recovering...</h2>
+          <p className="text-gray-400">WebGL context is being restored</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <InteractionProvider>

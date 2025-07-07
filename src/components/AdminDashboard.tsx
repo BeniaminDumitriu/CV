@@ -644,8 +644,8 @@ const AdminDashboard: React.FC = () => {
                     </label>
                     <div className="bg-slate-600 p-4 rounded-lg border border-slate-500">
                       <p className="text-white leading-relaxed whitespace-pre-wrap">
-                        {selectedContact.message}
-                      </p>
+                      {selectedContact.message}
+                    </p>
                     </div>
                   </div>
                 )}
